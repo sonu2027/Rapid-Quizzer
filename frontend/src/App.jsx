@@ -1,10 +1,10 @@
-function App() {
+import React from 'react'
+import Routing from './Routing'
 
-  return (
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
-  )
+function App() {
+    return (
+        <Routing />
+    )
 }
 
 export default App
