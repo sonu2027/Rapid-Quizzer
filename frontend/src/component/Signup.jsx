@@ -1,6 +1,43 @@
 import { Link } from "react-router-dom"
+import sendEmailVerificationCode from "../databaseCall/sendVerificationEmail.js"
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { toast } from 'react-hot-toast'
 
 export default function Signup() {
+
+    const navigate = useNavigate()
+
+    const [fullName, setFullName] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const [username, setUsername] = useState('')
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        if (password != confirmPassword) {
+            toast.error("Password doesn't match")
+            return
+        }
+        else if (password.length < 8) {
+            toast.error("password should consist of atleast 8 character")
+            return
+        }
+        sendEmailVerificationCode(email)
+            .then((code) => {
+                const userData = { fullName, email, username, password, code }
+                console.log("code is: ", code);
+                toast.success("OTP successfully sent to your email")
+                setTimeout(()=>{
+                    navigate("/verifyemail", { state: userData });
+                }, 2000)
+            })
+            .catch((error) => {
+                console.log("Error is: ", error);
+            })
+    }
+
     return (
         <>
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -16,19 +53,19 @@ export default function Signup() {
                 </div>
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form action="#" method="POST" className="space-y-6">
+                    <form onSubmit={handleSubmit} className="space-y-6">
                         <div>
                             <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
                                 Full name
                             </label>
                             <div className="mt-2">
                                 <input
-                                    id="email"
-                                    name="email"
-                                    type="email"
+                                    id="fullName"
+                                    name="fullName"
+                                    type="text"
                                     required
-                                    autoComplete="email"
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                    onChange={(e) => setFullName(e.target.value)}
                                 />
                             </div>
                         </div>
@@ -44,6 +81,24 @@ export default function Signup() {
                                     required
                                     autoComplete="email"
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    value={email}
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
+                                Username
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    id="username"
+                                    name="username"
+                                    type="text"
+                                    required
+                                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                    onChange={(e) => setUsername(e.target.value)}
                                 />
                             </div>
                         </div>
@@ -61,6 +116,7 @@ export default function Signup() {
                                     required
                                     autoComplete="current-password"
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                    onChange={(e) => setPassword(e.target.value)}
                                 />
                             </div>
                         </div>
@@ -73,12 +129,13 @@ export default function Signup() {
 
                             <div className="mt-2">
                                 <input
-                                    id="password"
-                                    name="password"
+                                    id="confirmPassword"
+                                    name="confirmPassword"
                                     type="password"
                                     required
                                     autoComplete="current-password"
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
                                 />
                             </div>
                         </div>

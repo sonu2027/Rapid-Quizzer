@@ -1,0 +1,28 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "backend for quiz recommendation website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon -r dotenv/config --experimental-json-modules index.js"
+  },
+  "type": "module",
+  "keywords": [
+    "quiz",
+    "recommendation"
+  ],
+  "author": "Sonu mondal",
+  "license": "ISC",
+  "dependencies": {
+    "cloudinary": "^2.5.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "fs": "^0.0.1-security",
+    "mongoose": "^8.9.2",
+    "nodemailer": "^6.9.16",
+    "nodemon": "^3.1.9"
+  }
+}

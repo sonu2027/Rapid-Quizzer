@@ -1,6 +1,38 @@
+import { useState } from "react"
 import { Link } from "react-router-dom"
+import loginUser from "../databaseCall/loginUser.js"
+import { toast } from 'react-hot-toast'
+import { useNavigate } from "react-router-dom"
 
 export default function Login() {
+
+    const navigate = useNavigate()
+
+    const [username, setUsername] = useState("")
+    const [passwords, setPasswords] = useState("")
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        loginUser(username, passwords)
+            .then((res) => {
+                if (res.status == "username doesn't exist") {
+                    toast.error("Username doesn't exist")
+                    return
+                }
+                else if (!res.status) {
+                    toast.error("Wrong password")
+                    return
+                }
+                const data = res.data;
+                navigate("/home")
+            })
+            .catch((error) => {
+                console.log("Error: ", error);
+
+                toast.error("Something went wrong")
+            })
+    }
+
     return (
         <>
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -16,7 +48,7 @@ export default function Login() {
                 </div>
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form action="#" method="POST" className="space-y-6">
+                    <form onSubmit={handleSubmit} className="space-y-6">
                         <div>
                             <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
                                 Email address
@@ -29,6 +61,8 @@ export default function Login() {
                                     required
                                     autoComplete="email"
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    value={username}
                                 />
                             </div>
                         </div>
@@ -52,6 +86,8 @@ export default function Login() {
                                     required
                                     autoComplete="current-password"
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                    onChange={(e) => setPasswords(e.target.value)}
+                                    value={passwords}
                                 />
                             </div>
                         </div>
@@ -68,7 +104,7 @@ export default function Login() {
 
                     <p className="mt-10 text-center text-sm/6 text-gray-500">
                         Don't have an account?{' '}
-                        <Link to="/signup">
+                        <Link to="/register">
                             <button className="font-semibold text-indigo-600 hover:text-indigo-500">
                                 Sign up
                             </button>
