@@ -54,6 +54,7 @@ const registerUser = async (req, res) => {
     maxAge: 24 * 60 * 60 * 1000, // 1 day
     signed: true, // Signed for integrity check
     domain: '.vercel.app',
+    sameSite: 'None',
   });
 
   return res.status(201).json({
@@ -95,6 +96,7 @@ const loginUser = async (req, res) => {
           maxAge: 24 * 60 * 60 * 1000, // 1 day
           signed: true, // Signed for integrity check
           domain: '.vercel.app',
+          sameSite: 'None',
         });
 
         console.log("cookies stored: ", req.signedCookies.userDetail);
@@ -124,6 +126,7 @@ const loginUser = async (req, res) => {
           maxAge: 24 * 60 * 60 * 1000, // 1 day
           signed: true, // Signed for integrity check
           domain: '.vercel.app',
+          sameSite: 'None',
         });
         res.status(200).json({
           data: foundUserEmail,
