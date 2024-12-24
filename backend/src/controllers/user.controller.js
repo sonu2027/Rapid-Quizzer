@@ -95,7 +95,7 @@ const loginUser = async (req, res) => {
           signed: true, // Signed for integrity check
         });
 
-        console.log("Cookies sent: ", res.getHeaders()["set-cookie"]);
+        // console.log("Cookies sent: ", res.getHeaders()["set-cookie"]);
 
         res.status(200).json({
           data: foundUserEmail,

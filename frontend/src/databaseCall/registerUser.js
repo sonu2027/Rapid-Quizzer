@@ -8,6 +8,7 @@ const registerUser = async (userData) => {
         },
         method: "POST",
         body: JSON.stringify(userData),
+        credentials:"include"
       }
     );
     let data = await response.json();
