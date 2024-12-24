@@ -155,21 +155,57 @@ const logoutUser = async (req, res) => {
   res.status(200).json({ message: "cookie deleted successffully" });
 };
 
+// const checkCookies = async (req, res) => {
+//   let userCookie = req.signedCookies.userDetail;
+//   userCookie = JSON.parse(userCookie);
+//   const userCookieKeys = Object.keys(userCookie);
+//   console.log(
+//     "userCookies and userCookieKeys's length: ",
+//     userCookie,
+//     userCookieKeys.length
+//   );
+//   if (userCookieKeys.length > 0) {
+//     console.log("cookie exist");
+//     res.status(200).json({ status: 1, message: "cookies exist" });
+//   } else {
+//     console.log("cookie doesn't exist");
+//     res.status(200).json({ status: 0, message: "cookies doesn't exist" });
+//   }
+// };
+
 const checkCookies = async (req, res) => {
   let userCookie = req.signedCookies.userDetail;
-  userCookie = JSON.parse(userCookie);
-  const userCookieKeys = Object.keys(userCookie);
-  console.log(
-    "userCookies and userCookieKeys's length: ",
-    userCookie,
-    userCookieKeys.length
-  );
-  if (userCookieKeys.length > 0) {
-    console.log("cookie exist");
-    res.status(200).json({ status: 1, message: "cookies exist" });
-  } else {
-    console.log("cookie doesn't exist");
-    res.status(200).json({ status: 0, message: "cookies doesn't exist" });
+
+  // Check if the cookie exists before attempting to parse it
+  if (!userCookie) {
+    console.log("Cookie doesn't exist");
+    return res.status(200).json({ status: 0, message: "Cookies don't exist" });
+  }
+
+  try {
+    userCookie = JSON.parse(userCookie);
+    const userCookieKeys = Object.keys(userCookie);
+    console.log(
+      "userCookies and userCookieKeys's length: ",
+      userCookie,
+      userCookieKeys.length
+    );
+
+    if (userCookieKeys.length > 0) {
+      console.log("cookie exists");
+      return res.status(200).json({ status: 1, message: "Cookies exist" });
+    } else {
+      console.log("cookie doesn't exist");
+      return res
+        .status(200)
+        .json({ status: 0, message: "Cookies don't exist" });
+    }
+  } catch (error) {
+    console.error("Error parsing cookie:", error);
+    return res.status(500).json({
+      status: 0,
+      message: "Error processing cookies",
+    });
   }
 };
 
