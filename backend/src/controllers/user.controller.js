@@ -44,13 +44,6 @@ const registerUser = async (req, res) => {
     signed: true, // Signed for integrity check
   });
 
-  res.cookie("userDetail", `${foundUserEmail}`, {
-    httpOnly: true, // Cannot be accessed via JavaScript
-    secure: true, // Set true for HTTPS
-    maxAge: 24 * 60 * 60 * 1000, // 1 day
-    signed: true, // Signed for integrity check
-  });
-
   return res.status(201).json({
     data: createdUser,
     userExist,
@@ -95,7 +88,7 @@ const loginUser = async (req, res) => {
       } else {
         res.cookie("user", "John", {
           httpOnly: true, // Cannot be accessed via JavaScript
-          secure: false, // Set true for HTTPS
+          secure: true, // Set true for HTTPS
           maxAge: 24 * 60 * 60 * 1000, // 1 day
           signed: true, // Signed for integrity check
         });
