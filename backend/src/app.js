@@ -1,20 +1,24 @@
-import express from "express"
-import cors from "cors"
-import cookieParser from "cookie-parser"
+import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
 
-const app=express()
+const app = express();
 
-app.use(cors({
+app.use(
+  cors({
     origin: process.env.CORS_ORIGIN,
-    credentials: true
-}))
+    credentials: true,
+    methods: "GET,POST,PUT,DELETE", // Allow necessary methods
+    allowedHeaders: "Content-Type,Authorization", // Allow necessary headers
+  })
+);
 
-app.use(express.json({limit: "16kb"}))
-app.use(express.urlencoded({extended: true, limit: "16kb"}))
-app.use(express.static("public"))
-app.use(cookieParser(process.env.COOKIE_SECRET))
+app.use(express.json({ limit: "16kb" }));
+app.use(express.urlencoded({ extended: true, limit: "16kb" }));
+app.use(express.static("public"));
+app.use(cookieParser(process.env.COOKIE_SECRET));
 
-import userRouter from "./routes/user.routes.js"
-app.use("/api/user", userRouter)
+import userRouter from "./routes/user.routes.js";
+app.use("/api/user", userRouter);
 
-export default app
+export default app;
