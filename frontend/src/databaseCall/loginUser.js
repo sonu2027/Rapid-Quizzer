@@ -9,9 +9,13 @@ const loginUser = async (username, password) => {
           "Content-Type": "application/json",
         },
         method: "POST",
+        credentials: "include", 
         body: JSON.stringify({ username, password }),
       }
     );
+    
+    console.log("cookie after login: ", document.cookie);
+    
     console.log("response after login: ", response);
     const data = await response.json();
     console.log("data: ", data);

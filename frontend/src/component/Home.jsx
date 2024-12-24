@@ -1,6 +1,5 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-
 const navigation = [
   { name: 'Dashboard', href: '#', current: true },
   { name: 'Team', href: '#', current: false },
@@ -12,7 +11,42 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
+import logoutUser from '../databaseCall/logoutUser.js'
+import { useEffect } from 'react'
+import checkCookies from '../databaseCall/checkCookies.js'
+import { useNavigate } from "react-router-dom"
+
 export default function Home() {
+
+  const navigate = useNavigate()
+
+  const handleLogout = async (e) => {
+    e.preventDefault()
+    logoutUser()
+      .then((res) => {
+        if (!res.status) {
+          navigate("/")
+        }
+      })
+      .catch((error) => {
+
+      })
+  }
+
+  useEffect(() => {
+    checkCookies()
+      .then((res) => {
+        if (!res.status) {
+          navigate("/")
+        }
+      })
+      .catch((error) => {
+        if (!res.status) {
+          navigate("/")
+        }
+      })
+  }, [])
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -96,12 +130,12 @@ export default function Home() {
                   </a>
                 </MenuItem>
                 <MenuItem>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
+                  <button
+                    onClick={handleLogout}
+                    className="block px-4 text-left w-full py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
                   >
                     Sign out
-                  </a>
+                  </button>
                 </MenuItem>
               </MenuItems>
             </Menu>

@@ -37,6 +37,20 @@ const registerUser = async (req, res) => {
     throw new ApiError(500, "Something went wrong while registering the user");
   }
 
+  res.cookie("userDetail", `${createdUser}`, {
+    httpOnly: true, // Cannot be accessed via JavaScript
+    secure: true, // Set true for HTTPS
+    maxAge: 24 * 60 * 60 * 1000, // 1 day
+    signed: true, // Signed for integrity check
+  });
+
+  res.cookie("userDetail", `${foundUserEmail}`, {
+    httpOnly: true, // Cannot be accessed via JavaScript
+    secure: true, // Set true for HTTPS
+    maxAge: 24 * 60 * 60 * 1000, // 1 day
+    signed: true, // Signed for integrity check
+  });
+
   return res.status(201).json({
     data: createdUser,
     userExist,
@@ -59,12 +73,32 @@ const loginUser = async (req, res) => {
 
     if ((foundUserEmail || foundUserUsername) && passwordNotMatch) {
       if (foundUserEmail) {
+        console.log("user details: ", foundUserEmail);
+
+        res.cookie("userDetail", `${foundUserEmail}`, {
+          httpOnly: true, // Cannot be accessed via JavaScript
+          secure: true, // Set true for HTTPS
+          maxAge: 24 * 60 * 60 * 1000, // 1 day
+          signed: true, // Signed for integrity check
+        });
+
+        const userCookie = req.signedCookies;
+        console.log("userCookies: ", userCookie);
+
+        console.log("Cookies sent: ", res.getHeaders()["set-cookie"]);
+
         res.status(200).json({
           data: foundUserEmail,
           message: "User logged in Successfully",
           status: true,
         });
       } else {
+        res.cookie("user", "John", {
+          httpOnly: true, // Cannot be accessed via JavaScript
+          secure: false, // Set true for HTTPS
+          maxAge: 24 * 60 * 60 * 1000, // 1 day
+          signed: true, // Signed for integrity check
+        });
         res.status(200).json({
           data: foundUserEmail,
           message: "User logged in Successfully",
@@ -90,6 +124,28 @@ const loginUser = async (req, res) => {
       message: "Something went wrong",
       status: "something went wrong",
     });
+  }
+};
+
+const logoutUser = async (req, res) => {
+  res.clearCookie("userDetail");
+  res.status(200).json({ message: "cookie deleted successffully" });
+};
+
+const checkCookies = async (req, res) => {
+  const userCookie = req.signedCookies;
+  const userCookieKeys = Object.keys(userCookie);
+  console.log(
+    "userCookies and userCookieKeys's length: ",
+    userCookie,
+    userCookieKeys.length
+  );
+  if (userCookieKeys.length > 0) {
+    console.log("cookie exist");
+    res.status(200).json({ status: 1, message: "cookies exist" });
+  } else {
+    console.log("cookie doesn't exist");
+    res.status(200).json({ status: 0, message: "cookies doesn't exist" });
   }
 };
 
@@ -129,4 +185,10 @@ const sendemailverificationcode = async (req, res) => {
   }
 };
 
-export { registerUser, loginUser, sendemailverificationcode };
+export {
+  registerUser,
+  loginUser,
+  logoutUser,
+  checkCookies,
+  sendemailverificationcode,
+};
