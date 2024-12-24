@@ -37,7 +37,18 @@ const registerUser = async (req, res) => {
     throw new ApiError(500, "Something went wrong while registering the user");
   }
 
-  res.cookie("userDetail", `${createdUser}`, {
+  let users = createdUser;
+  console.log("user details: ", users);
+
+  const userData = JSON.stringify({
+    id: users._id,
+    username: users.username,
+    email: users.email,
+    password: users.password,
+    fullName: users.fullName,
+  });
+
+  res.cookie("userDetail", userData, {
     httpOnly: true, // Cannot be accessed via JavaScript
     secure: true, // Set true for HTTPS
     maxAge: 24 * 60 * 60 * 1000, // 1 day
@@ -66,17 +77,23 @@ const loginUser = async (req, res) => {
 
     if ((foundUserEmail || foundUserUsername) && passwordNotMatch) {
       if (foundUserEmail) {
-        console.log("user details: ", foundUserEmail);
+        let user = foundUserEmail;
+        console.log("user details: ", user);
 
-        res.cookie("userDetail", `${foundUserEmail}`, {
+        const userData = JSON.stringify({
+          id: user._id,
+          username: user.username,
+          email: user.email,
+          password: user.password,
+          fullName: user.fullName,
+        });
+
+        res.cookie("userDetail", userData, {
           httpOnly: true, // Cannot be accessed via JavaScript
           secure: true, // Set true for HTTPS
           maxAge: 24 * 60 * 60 * 1000, // 1 day
           signed: true, // Signed for integrity check
         });
-
-        const userCookie = req.signedCookies;
-        console.log("userCookies: ", userCookie);
 
         console.log("Cookies sent: ", res.getHeaders()["set-cookie"]);
 
@@ -86,7 +103,18 @@ const loginUser = async (req, res) => {
           status: true,
         });
       } else {
-        res.cookie("user", "John", {
+        let user = foundUserUsername;
+        console.log("user details: ", user);
+
+        const userData = JSON.stringify({
+          id: user._id,
+          username: user.username,
+          email: user.email,
+          password: user.password,
+          fullName: user.fullName,
+        });
+
+        res.cookie("userDetail", userData, {
           httpOnly: true, // Cannot be accessed via JavaScript
           secure: true, // Set true for HTTPS
           maxAge: 24 * 60 * 60 * 1000, // 1 day
@@ -126,7 +154,8 @@ const logoutUser = async (req, res) => {
 };
 
 const checkCookies = async (req, res) => {
-  const userCookie = req.signedCookies;
+  let userCookie = req.signedCookies.userDetail;
+  userCookie = JSON.parse(userCookie);
   const userCookieKeys = Object.keys(userCookie);
   console.log(
     "userCookies and userCookieKeys's length: ",
