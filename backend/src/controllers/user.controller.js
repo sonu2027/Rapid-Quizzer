@@ -1,11 +1,5 @@
-import {
-  deleteFromCloudinary,
-  uploadOnCloudinary,
-} from "../utils/cloudinary.js";
 import nodemailer from "nodemailer";
-import fs from "fs";
 import { User } from "../models/user.model.js";
-import path from "path";
 
 const registerUser = async (req, res) => {
   const { fullName, email, username, password } = req.body;
@@ -165,6 +159,8 @@ const logoutUser = async (req, res) => {
   res.clearCookie("userDetail", {
     domain: ".quizrecommendationbackend.vercel.app",
     path: "/",
+    httpOnly: true,
+    secure: true,
   });
 
   res.status(200).json({ message: "cookie deleted successffully" });
