@@ -54,11 +54,11 @@ const registerUser = async (req, res) => {
     secure: true,
     maxAge: 24 * 60 * 60 * 1000, // 1 day
     signed: true,
-    domain: ".quizrecommendationbackend.vercel.app", // Use backend's domain
+    // domain: ".quizrecommendationbackend.vercel.app", // Use backend's domain
     sameSite: "None", // Allow cross-site cookies
     path: "/",
-  }); 
-  
+  });
+
   return res.status(201).json({
     data: createdUser,
     userExist,
@@ -97,7 +97,7 @@ const loginUser = async (req, res) => {
           secure: true,
           maxAge: 24 * 60 * 60 * 1000, // 1 day
           signed: true,
-          domain: ".quizrecommendationbackend.vercel.app", // Use backend's domain
+          // domain: ".quizrecommendationbackend.vercel.app", // Use backend's domain
           sameSite: "None", // Allow cross-site cookies
           path: "/",
         });
@@ -128,7 +128,7 @@ const loginUser = async (req, res) => {
           secure: true,
           maxAge: 24 * 60 * 60 * 1000, // 1 day
           signed: true,
-          domain: ".quizrecommendationbackend.vercel.app", // Use backend's domain
+          // domain: ".quizrecommendationbackend.vercel.app", // Use backend's domain
           sameSite: "None", // Allow cross-site cookies
           path: "/",
         });
@@ -166,23 +166,39 @@ const logoutUser = async (req, res) => {
   res.status(200).json({ message: "cookie deleted successffully" });
 };
 
-// const checkCookies = async (req, res) => {
-//   let userCookie = req.signedCookies.userDetail;
-//   userCookie = JSON.parse(userCookie);
-//   const userCookieKeys = Object.keys(userCookie);
-//   console.log(
-//     "userCookies and userCookieKeys's length: ",
-//     userCookie,
-//     userCookieKeys.length
-//   );
-//   if (userCookieKeys.length > 0) {
-//     console.log("cookie exist");
-//     res.status(200).json({ status: 1, message: "cookies exist" });
-//   } else {
-//     console.log("cookie doesn't exist");
-//     res.status(200).json({ status: 0, message: "cookies doesn't exist" });
-//   }
-// };
+const changePassword = async (req, res) => {
+  console.log("req.body: ", req.body);
+  const { email, password } = req.body;
+  try {
+    const response = await User.updateOne({ email }, { password: password });
+    console.log("Response: ", response);
+    res
+      .status(200)
+      .json({ response, message: "Password changed ssuccessfully", status: true });
+  } catch (error) {
+    console.log("error while updating password: ", error);
+    res.status(500).json({ message: "Something went wrong", status: false });
+  }
+};
+
+const checkEmailExistence = async (req, res) => {
+  console.log("req.body: ", req.body);
+  const { email } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    console.log("user found is: ", user);
+    if (user) {
+      res.status(200).json({ user, message: "User found", status: true });
+    } else {
+      res
+        .status(200)
+        .json({ user, message: "User doesn't found", status: false });
+    }
+  } catch (error) {
+    console.error("Server Error", error);
+    res.status(500).json({ message: "Internal Server Error", status: false });
+  }
+};
 
 const checkCookies = async (req, res) => {
   let userCookie = req.signedCookies.userDetail;
@@ -261,5 +277,7 @@ export {
   loginUser,
   logoutUser,
   checkCookies,
+  changePassword,
   sendemailverificationcode,
+  checkEmailExistence,
 };

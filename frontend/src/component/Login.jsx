@@ -1,8 +1,9 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import loginUser from "../databaseCall/loginUser.js"
 import { toast } from 'react-hot-toast'
 import { useNavigate } from "react-router-dom"
+import checkCookies from "../databaseCall/checkCookies.js"
 
 export default function Login() {
 
@@ -32,6 +33,20 @@ export default function Login() {
                 toast.error("Something went wrong")
             })
     }
+
+    useEffect(() => {
+        checkCookies()
+            .then((res) => {
+                if (res.status) {
+                    navigate("/home")
+                }
+            })
+            .catch((error) => {
+                if (!res.status) {
+                    navigate("/")
+                }
+            })
+    }, [])
 
     return (
         <>
@@ -73,9 +88,11 @@ export default function Login() {
                                     Password
                                 </label>
                                 <div className="text-sm">
-                                    <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                                        Forgot password?
-                                    </a>
+                                    <Link to="/changepassword">
+                                        <button className="font-semibold text-indigo-600 hover:text-indigo-500">
+                                            Forgot password?
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
                             <div className="mt-2">

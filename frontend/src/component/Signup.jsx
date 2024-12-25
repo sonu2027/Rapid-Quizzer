@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom"
 import sendEmailVerificationCode from "../databaseCall/sendVerificationEmail.js"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { toast } from 'react-hot-toast'
+import checkCookies from "../databaseCall/checkCookies.js"
 
 export default function Signup() {
 
@@ -29,7 +30,7 @@ export default function Signup() {
                 const userData = { fullName, email, username, password, code }
                 console.log("code is: ", code);
                 toast.success("OTP successfully sent to your email")
-                setTimeout(()=>{
+                setTimeout(() => {
                     navigate("/verifyemail", { state: userData });
                 }, 2000)
             })
@@ -37,6 +38,20 @@ export default function Signup() {
                 console.log("Error is: ", error);
             })
     }
+
+    useEffect(() => {
+        checkCookies()
+            .then((res) => {
+                if (res.status) {
+                    navigate("/home")
+                }
+            })
+            .catch((error) => {
+                if (!res.status) {
+                    navigate("/")
+                }
+            })
+    }, [])
 
     return (
         <>

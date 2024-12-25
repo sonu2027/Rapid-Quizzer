@@ -4,6 +4,7 @@ import Login from "./component/Login.jsx"
 import Signup from './component/Signup.jsx'
 import Home from './component/Home.jsx'
 import VerifyEmail from './component/VerifyEmail.jsx'
+import ChangePassword from './component/ChangePassword.jsx'
 
 function Routing() {
     return (
@@ -12,6 +13,7 @@ function Routing() {
             <Route path='/register' element={<Signup/>} />
             <Route path='/home' element={<Home/>} />
             <Route path='/verifyemail' element={<VerifyEmail/>} />
+            <Route path='/changepassword' element={<ChangePassword/>} />
         </Routes>
     )
 }
