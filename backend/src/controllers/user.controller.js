@@ -153,7 +153,9 @@ const loginUser = async (req, res) => {
 };
 
 const logoutUser = async (req, res) => {
-  res.clearCookie("userDetail");
+  res.clearCookie("userDetail", {
+    domain: ".quizrecommendationbackend.vercel.app", // Ensure exact match
+  });
 
   res.status(200).json({ message: "cookie deleted successffully" });
 };
