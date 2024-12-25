@@ -50,7 +50,6 @@ const registerUser = async (req, res) => {
     signed: true,
     domain: ".quizrecommendationbackend.vercel.app", // Use backend's domain
     sameSite: "None", // Allow cross-site cookies
-    path: "/",
   });
 
   return res.status(201).json({
@@ -93,7 +92,6 @@ const loginUser = async (req, res) => {
           signed: true,
           domain: ".quizrecommendationbackend.vercel.app", // Use backend's domain
           sameSite: "None", // Allow cross-site cookies
-          path: "/",
         });
 
         console.log("cookies stored: ", req.signedCookies.userDetail);
@@ -124,7 +122,6 @@ const loginUser = async (req, res) => {
           signed: true,
           domain: ".quizrecommendationbackend.vercel.app", // Use backend's domain
           sameSite: "None", // Allow cross-site cookies
-          path: "/",
         });
 
         res.status(200).json({
@@ -156,12 +153,7 @@ const loginUser = async (req, res) => {
 };
 
 const logoutUser = async (req, res) => {
-  res.clearCookie("userDetail", {
-    domain: ".quizrecommendationbackend.vercel.app",
-    path: "/",
-    httpOnly: true,
-    secure: true,
-  });
+  res.clearCookie("userDetail");
 
   res.status(200).json({ message: "cookie deleted successffully" });
 };
