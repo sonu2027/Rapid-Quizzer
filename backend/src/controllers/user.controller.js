@@ -163,10 +163,10 @@ const loginUser = async (req, res) => {
 
 const logoutUser = async (req, res) => {
   res.clearCookie("userDetail", {
-    domain: ".quizrecommendation.vercel.app", 
+    domain: ".quizrecommendationbackend.vercel.app",
     path: "/",
   });
-  
+
   res.status(200).json({ message: "cookie deleted successffully" });
 };
 
@@ -176,13 +176,11 @@ const changePassword = async (req, res) => {
   try {
     const response = await User.updateOne({ email }, { password: password });
     console.log("Response: ", response);
-    res
-      .status(200)
-      .json({
-        response,
-        message: "Password changed ssuccessfully",
-        status: true,
-      });
+    res.status(200).json({
+      response,
+      message: "Password changed ssuccessfully",
+      status: true,
+    });
   } catch (error) {
     console.log("error while updating password: ", error);
     res.status(500).json({ message: "Something went wrong", status: false });
