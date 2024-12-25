@@ -54,11 +54,11 @@ const registerUser = async (req, res) => {
     secure: true,
     maxAge: 24 * 60 * 60 * 1000, // 1 day
     signed: true,
-    domain: ".quizrecommendation.vercel.app", // Updated for subdomains
-    sameSite: "None", // Cross-site
+    domain: ".quizrecommendationbackend.vercel.app", // Use backend's domain
+    sameSite: "None", // Allow cross-site cookies
     path: "/",
-  });
-
+  }); 
+  
   return res.status(201).json({
     data: createdUser,
     userExist,
@@ -97,8 +97,8 @@ const loginUser = async (req, res) => {
           secure: true,
           maxAge: 24 * 60 * 60 * 1000, // 1 day
           signed: true,
-          domain: ".quizrecommendation.vercel.app", // Updated for subdomains
-          sameSite: "None", // Cross-site
+          domain: ".quizrecommendationbackend.vercel.app", // Use backend's domain
+          sameSite: "None", // Allow cross-site cookies
           path: "/",
         });
 
@@ -128,8 +128,8 @@ const loginUser = async (req, res) => {
           secure: true,
           maxAge: 24 * 60 * 60 * 1000, // 1 day
           signed: true,
-          domain: ".quizrecommendation.vercel.app", // Updated for subdomains
-          sameSite: "None", // Cross-site
+          domain: ".quizrecommendationbackend.vercel.app", // Use backend's domain
+          sameSite: "None", // Allow cross-site cookies
           path: "/",
         });
 
@@ -189,7 +189,7 @@ const checkCookies = async (req, res) => {
 
   // Check if the cookie exists before attempting to parse it
   if (!userCookie) {
-    console.log("Cookie doesn't exist");
+    console.log("Cookie doesn't exist: ", userCookie);
     return res.status(200).json({ status: 0, message: "Cookies don't exist" });
   }
 
