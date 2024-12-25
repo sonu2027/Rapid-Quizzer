@@ -50,12 +50,12 @@ const registerUser = async (req, res) => {
   });
 
   res.cookie("userDetail", userData, {
-    httpOnly: true, // Cannot be accessed via JavaScript
-    secure: true, // Set true for HTTPS
+    httpOnly: true,
+    secure: true,
     maxAge: 24 * 60 * 60 * 1000, // 1 day
-    signed: true, // Signed for integrity check
-    domain: ".vercel.app",
-    sameSite: "None",
+    signed: true,
+    domain: ".quizrecommendation.vercel.app", // Updated for subdomains
+    sameSite: "None", // Cross-site
     path: "/",
   });
 
@@ -93,12 +93,12 @@ const loginUser = async (req, res) => {
         });
 
         res.cookie("userDetail", userData, {
-          httpOnly: true, // Cannot be accessed via JavaScript
-          secure: true, // Set true for HTTPS
+          httpOnly: true,
+          secure: true,
           maxAge: 24 * 60 * 60 * 1000, // 1 day
-          signed: true, // Signed for integrity check
-          domain: ".vercel.app",
-          sameSite: "None",
+          signed: true,
+          domain: ".quizrecommendation.vercel.app", // Updated for subdomains
+          sameSite: "None", // Cross-site
           path: "/",
         });
 
@@ -124,14 +124,15 @@ const loginUser = async (req, res) => {
         });
 
         res.cookie("userDetail", userData, {
-          httpOnly: true, // Cannot be accessed via JavaScript
-          secure: true, // Set true for HTTPS
+          httpOnly: true,
+          secure: true,
           maxAge: 24 * 60 * 60 * 1000, // 1 day
-          signed: true, // Signed for integrity check
-          domain: ".vercel.app",
-          sameSite: "None",
+          signed: true,
+          domain: ".quizrecommendation.vercel.app", // Updated for subdomains
+          sameSite: "None", // Cross-site
           path: "/",
         });
+
         res.status(200).json({
           data: foundUserEmail,
           message: "User logged in Successfully",
