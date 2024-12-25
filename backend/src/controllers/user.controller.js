@@ -5,6 +5,7 @@ import {
 import nodemailer from "nodemailer";
 import fs from "fs";
 import { User } from "../models/user.model.js";
+import path from "path";
 
 const registerUser = async (req, res) => {
   const { fullName, email, username, password } = req.body;
@@ -53,8 +54,9 @@ const registerUser = async (req, res) => {
     secure: true, // Set true for HTTPS
     maxAge: 24 * 60 * 60 * 1000, // 1 day
     signed: true, // Signed for integrity check
-    domain: '.vercel.app',
-    sameSite: 'None',
+    domain: ".vercel.app",
+    sameSite: "None",
+    path: "/",
   });
 
   return res.status(201).json({
@@ -95,8 +97,9 @@ const loginUser = async (req, res) => {
           secure: true, // Set true for HTTPS
           maxAge: 24 * 60 * 60 * 1000, // 1 day
           signed: true, // Signed for integrity check
-          domain: '.vercel.app',
-          sameSite: 'None',
+          domain: ".vercel.app",
+          sameSite: "None",
+          path: "/",
         });
 
         console.log("cookies stored: ", req.signedCookies.userDetail);
@@ -125,8 +128,9 @@ const loginUser = async (req, res) => {
           secure: true, // Set true for HTTPS
           maxAge: 24 * 60 * 60 * 1000, // 1 day
           signed: true, // Signed for integrity check
-          domain: '.vercel.app',
-          sameSite: 'None',
+          domain: ".vercel.app",
+          sameSite: "None",
+          path: "/",
         });
         res.status(200).json({
           data: foundUserEmail,
