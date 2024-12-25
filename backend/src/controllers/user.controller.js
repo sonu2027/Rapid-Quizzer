@@ -162,7 +162,11 @@ const loginUser = async (req, res) => {
 };
 
 const logoutUser = async (req, res) => {
-  res.clearCookie("userDetail");
+  res.clearCookie("userDetail", {
+    domain: ".quizrecommendationbackend.vercel.app", 
+    path: "/",
+  });
+  
   res.status(200).json({ message: "cookie deleted successffully" });
 };
 
@@ -174,7 +178,11 @@ const changePassword = async (req, res) => {
     console.log("Response: ", response);
     res
       .status(200)
-      .json({ response, message: "Password changed ssuccessfully", status: true });
+      .json({
+        response,
+        message: "Password changed ssuccessfully",
+        status: true,
+      });
   } catch (error) {
     console.log("error while updating password: ", error);
     res.status(500).json({ message: "Something went wrong", status: false });
