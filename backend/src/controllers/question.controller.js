@@ -35,4 +35,13 @@ const insertQuestion = async (req, res) => {
   }
 };
 
-export { insertQuestion };
+const fetchQuestion = async (req, res) => {
+  try {
+    const questions = await Question.find();
+    res.status(201).json(questions);
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+};
+
+export { insertQuestion, fetchQuestion };

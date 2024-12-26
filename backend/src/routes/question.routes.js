@@ -1,7 +1,8 @@
 import { Router } from "express";
-import { insertQuestion } from "../controllers/question.controller.js";
+import { insertQuestion, fetchQuestion } from "../controllers/question.controller.js";
 
 const router = Router();
 router.route("/insertquestion").post(insertQuestion);
+router.route("/fetchquestion").get(fetchQuestion);
 
 export default router;

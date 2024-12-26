@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#quiz-component {
+  @apply bg-[#0f172a] text-white;
+  font-family: "Anek Malayalam", sans-serif;
+}
