@@ -48,7 +48,7 @@ const registerUser = async (req, res) => {
     secure: true,
     maxAge: 24 * 60 * 60 * 1000, // 1 day
     signed: true,
-    domain: ".quizrecommendationbackend.vercel.app", // Use backend's domain
+    domain: process.env.DOMAIN | null, // Use backend's domain
     sameSite: "None", // Allow cross-site cookies
     path: "/",
   });
@@ -91,7 +91,7 @@ const loginUser = async (req, res) => {
           secure: true,
           maxAge: 24 * 60 * 60 * 1000, // 1 day
           signed: true,
-          domain: ".quizrecommendationbackend.vercel.app", // Use backend's domain
+          domain: process.env.DOMAIN | null, // Use backend's domain
           sameSite: "None", // Allow cross-site cookies
           path: "/",
         });
@@ -122,7 +122,7 @@ const loginUser = async (req, res) => {
           secure: true,
           maxAge: 24 * 60 * 60 * 1000, // 1 day
           signed: true,
-          domain: ".quizrecommendationbackend.vercel.app", // Use backend's domain
+          domain: process.env.DOMAIN | null, // Use backend's domain
           sameSite: "None", // Allow cross-site cookies
           path: "/",
         });
@@ -161,7 +161,7 @@ const logoutUser = async (req, res) => {
     secure: true,
     maxAge: 24 * 60 * 60 * 1000,
     signed: true,
-    domain: ".quizrecommendationbackend.vercel.app",
+    domain: process.env.DOMAIN | null,
     sameSite: "None",
     path: "/",
   });
