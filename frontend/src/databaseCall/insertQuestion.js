@@ -2,13 +2,15 @@ const insertQuestion = async () => {
   // `${import.meta.env.VITE_API_URL}/api/question/insertquestion`,
   let data = {
     question: "Hello",
+    options: [1, 2, "3", 4],
     difficulty: 0,
     subject: "Pseudo Code",
     chapter: "Pointer",
   };
   try {
     let response = await fetch(
-      `http://localhost:8000/api/question/insertquestion`,
+      // `http://localhost:8000/api/question/insertquestion`,
+      `https://quizrecommendationbackend.vercel.app/api/question/insertquestion`,
       {
         method: "POST",
         headers: {

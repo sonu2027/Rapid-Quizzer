@@ -8,6 +8,10 @@ const questionSchema = new Schema(
       unique: true,
       index: true,
     },
+    options: {
+      type: Array,
+      required: true,
+    },
     difficulty: {
       type: Number,
       required: true,
