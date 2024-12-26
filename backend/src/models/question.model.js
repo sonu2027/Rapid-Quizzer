@@ -13,7 +13,7 @@ const questionSchema = new Schema(
       required: true,
     },
     answer: {
-      type: Number,
+      type: String,
       required: true,
     },
     difficulty: {
