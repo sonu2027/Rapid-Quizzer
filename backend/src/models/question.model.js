@@ -12,6 +12,10 @@ const questionSchema = new Schema(
       type: Array,
       required: true,
     },
+    answer: {
+      type: Number,
+      required: true,
+    },
     difficulty: {
       type: Number,
       required: true,

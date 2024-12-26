@@ -2,11 +2,12 @@ import { Question } from "../models/question.model.js";
 
 const insertQuestion = async (req, res) => {
   console.log("req.difficulty, body: ", req.body);
-  const { question, options, difficulty, subject, chapter } = req.body;
+  const { question, options, answer, difficulty, subject, chapter } = req.body;
   try {
     const questions = await Question.create({
       question,
       options,
+      answer,
       difficulty,
       subject,
       chapter,

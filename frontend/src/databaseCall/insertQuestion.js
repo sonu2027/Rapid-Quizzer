@@ -3,6 +3,7 @@ const insertQuestion = async () => {
   let data = {
     question: "Hello",
     options: [1, 2, "3", 4],
+    answer:1,
     difficulty: 0,
     subject: "Pseudo Code",
     chapter: "Pointer",
