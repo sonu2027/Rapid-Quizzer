@@ -99,7 +99,7 @@ const QuizCard = ({ setStartQuiz }) => {
                                 </span>
                             </div>
                         </div>
-                        <h3 className="my-4 text-lg font-medium">{allQuestion[activeQuestion].question}</h3>
+                        <h3  style={{ whiteSpace: "pre-wrap" }} className="my-4 text-lg font-medium">{allQuestion[activeQuestion].question}</h3>
                         <form>
                             {allQuestion[activeQuestion].options.map((e, i) => (
                                 <QuizOption

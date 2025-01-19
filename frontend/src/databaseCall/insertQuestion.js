@@ -1,13 +1,14 @@
 const insertQuestion = async () => {
   // `${import.meta.env.VITE_API_URL}/api/question/insertquestion`,
-  let data = {
-    question: ``,
-    options: [``, ``, ``, ``],
-    answer:``,
-    difficulty: 0,
-    subject: ``,
-    chapter: ``,
-  };
+  // let data = {
+  //   question: ``,
+  //   options: [``, ``, ``, ``],
+  //   answer:``,
+  //   difficulty: 0,
+  //   subject: ``,
+  //   chapter: ``,
+  // };
+  
   try {
     let response = await fetch(
       // `http://localhost:8000/api/question/insertquestion`,
