@@ -86,7 +86,7 @@ function VerifyEmail() {
                                         <div key={index} className="w-16 h-16 ">
                                             <input
                                                 ref={inputRefs[index]} // Attach ref to input
-                                                className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
+                                                className="w-full h-10 text-center px-2 outline-none rounded-xl border border-gray-200 text-lg focus:bg-gray-50 focus:ring-1 ring-blue-700"
                                                 type="number"
                                                 min={0}
                                                 max={9}

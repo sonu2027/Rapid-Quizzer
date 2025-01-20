@@ -7,6 +7,7 @@ const QuizCard = ({ setStartQuiz }) => {
     const [activeQuestion, setActiveQuestion] = useState(0)
     const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null)
     const [timer, setTimer] = useState(10)
+    const [currentTime, setCurrentTime] = useState(60)
     const [allQuestion, setAllQuestion] = useState([])
     const [obtainMarks, setObtainMarks] = useState(0)
     const [showResult, setShowResult] = useState(false)
@@ -73,6 +74,19 @@ const QuizCard = ({ setStartQuiz }) => {
             })
     }, [])
 
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (currentTime == 0) {
+                setCurrentTime(60)
+                onClickNext()
+                clearInterval(interval)
+                return
+            }
+            setCurrentTime(currentTime - 1)
+            clearInterval(interval)
+        }, 1000)
+    }, [currentTime])
+
     return (
         <>
             {
@@ -83,6 +97,12 @@ const QuizCard = ({ setStartQuiz }) => {
                     </div>
                     :
                     <div className="mx-auto max-w-3xl rounded-md sm:border sm:border-[#444444] bg-[#1e293b] px-[15px] py-[15px] sm:px-[60px] sm:py-[30px]">
+                        <div className="flex w-[150px] items-center gap-2 my-4">
+                            <Timer color="#38bdf8" width={28} height={28} />
+                            <span className="mt-1 block text-lg font-medium text-[#38bdf8]">
+                                00:{addLeadingZero(timer)} min left
+                            </span>
+                        </div>
                         <div className="flex items-center justify-between">
                             <div>
                                 <span className="text-lg font-medium text-[#38bdf8]">
@@ -95,11 +115,11 @@ const QuizCard = ({ setStartQuiz }) => {
                             <div className="flex w-[150px] items-center gap-2">
                                 <Timer color="#38bdf8" width={28} height={28} />
                                 <span className="mt-1 block text-lg font-medium text-[#38bdf8]">
-                                    00:{addLeadingZero(timer)} min
+                                    {addLeadingZero(currentTime)} sec left
                                 </span>
                             </div>
                         </div>
-                        <h3  style={{ whiteSpace: "pre-wrap" }} className="my-4 text-lg font-medium">{allQuestion[activeQuestion].question}</h3>
+                        <h3 style={{ whiteSpace: "pre-wrap" }} className="my-4 text-lg font-medium">{allQuestion[activeQuestion].question}</h3>
                         <form>
                             {allQuestion[activeQuestion].options.map((e, i) => (
                                 <QuizOption

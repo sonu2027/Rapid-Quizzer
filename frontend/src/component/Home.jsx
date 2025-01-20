@@ -1,10 +1,9 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import fetchContest from "../databaseCall/fetchContest.js"
 const navigation = [
-  { name: 'Dashboard', href: '#', current: true },
-  { name: 'Team', href: '#', current: false },
-  { name: 'Projects', href: '#', current: false },
-  { name: 'Calendar', href: '#', current: false },
+  { name: 'Upcoming Contest', href: '#', current: true },
+  { name: 'Dashboard', href: '#', current: false },
 ]
 
 function classNames(...classes) {
@@ -21,8 +20,21 @@ import { BasicCard } from './BasicCard.jsx'
 export default function Home() {
 
   const [startQuiz, setStartQuiz] = useState(false)
-
   const navigate = useNavigate()
+
+  const [contest, setAllContest] = useState(null)
+
+  useEffect(() => {
+    fetchContest()
+      .then((res) => {
+        console.log("res: ", res);
+        console.log("contest date: ", res[0].date);
+        setAllContest(res)
+      })
+      .catch((error) => {
+
+      })
+  }, [])
 
   const handleLogout = async (e) => {
     e.preventDefault()
@@ -170,10 +182,12 @@ export default function Home() {
       {
         startQuiz ?
           <div className='sm:p-4' id='quiz-component'>
-            <QuizCard setStartQuiz={setStartQuiz}/>
+            <QuizCard setStartQuiz={setStartQuiz} />
           </div>
           :
-          <BasicCard setStartQuiz={setStartQuiz}/>
+          contest != null && contest.map((e) => <div className='mt-4 mx-2 flex justify-center items-center'>
+            <BasicCard contest={e} setStartQuiz={setStartQuiz} />
+          </div>)
       }
     </div>
   )

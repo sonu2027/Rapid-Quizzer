@@ -20,7 +20,10 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 
 import userRouter from "./routes/user.routes.js";
 import questionRouter from "./routes/question.routes.js";
+import contestRouter from "./routes/contest.route.js";
+
 app.use("/api/user", userRouter);
 app.use("/api/question", questionRouter);
+app.use("/api/contest", contestRouter);
 
 export default app;
