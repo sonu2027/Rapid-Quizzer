@@ -1,5 +1,5 @@
 import { Timer } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import QuizOption from './QuizOption.jsx'
 import fetchQuestion from '../databaseCall/fetchQuestion.js'
 
@@ -11,8 +11,10 @@ const QuizCard = ({ setStartQuiz }) => {
     const [allQuestion, setAllQuestion] = useState([])
     const [obtainMarks, setObtainMarks] = useState(0)
     const [showResult, setShowResult] = useState(false)
+    let clickedNext=false
 
     const onClickNext = () => {
+        clickedNext=true
         console.log("answerselected is: ", allQuestion[activeQuestion].options[selectedAnswerIndex]);
 
         console.log("obtain marks is: ", obtainMarks);
@@ -75,10 +77,16 @@ const QuizCard = ({ setStartQuiz }) => {
     }, [])
 
     useEffect(() => {
-        const interval = setInterval(() => {
+        let interval = setInterval(() => {
             if (currentTime == 0) {
                 setCurrentTime(60)
                 onClickNext()
+                clearInterval(interval)
+                return
+            }
+            if (clickedNext) {
+                setCurrentTime(60)
+                clickedNext=false
                 clearInterval(interval)
                 return
             }
@@ -87,11 +95,21 @@ const QuizCard = ({ setStartQuiz }) => {
         }, 1000)
     }, [currentTime])
 
+    const componentRef = useRef();
+
+    useEffect(() => {
+        if (componentRef.current) {
+            componentRef.current.requestFullscreen?.().catch((err) => {
+                console.error("Failed to enter full-screen mode:", err);
+            });
+        }
+    }, []);
+
     return (
         <>
             {
                 allQuestion.length === 0 || showResult ?
-                    <div className='className="mx-auto max-w-3xl rounded-md sm:border sm:border-[#444444] bg-[#1e293b] px-[15px] py-[15px] sm:px-[60px] sm:py-[30px]'>
+                    <div ref={componentRef} className='className="mx-auto max-w-3xl rounded-md sm:border sm:border-[#444444] bg-[#1e293b] px-[15px] py-[15px] sm:px-[60px] sm:py-[30px]'>
                         <h2>Final score</h2>
                         <h3>You got {obtainMarks} out of 10</h3>
                     </div>

@@ -1,17 +1,17 @@
 import fetchContest from "../databaseCall/fetchContest.js"
 import { useEffect, useState } from 'react'
 import checkCookies from '../databaseCall/checkCookies.js'
+import { useNavigate } from "react-router-dom"
 import QuizCard from './QuizCard.jsx'
 import { BasicCard } from './BasicCard.jsx'
 import Navbar from './Navbar.jsx'
-import { useNavigate } from "react-router-dom"
 
-export default function Home() {
-
-  const navigate = useNavigate()
+export default function PastContest() {
 
   const [startQuiz, setStartQuiz] = useState(false)
-  const [upcomingContest, setUpcomingContest] = useState([])
+  const navigate = useNavigate()
+  const [pastContest, setPastContest] = useState([])
+
 
   useEffect(() => {
     fetchContest()
@@ -30,25 +30,22 @@ export default function Home() {
         let newRes = []
         res.forEach(e => {
           if (Number(e.date[0]) > year) {
-            newRes.push(e)
           }
           else if (Number(e.date[0]) == year && Number(e.date[1]) > month) {
-            newRes.push(e)
           }
           else if (Number(e.date[0]) == year && Number(e.date[1]) == month && Number(e.date[2]) > day) {
-            newRes.push(e)
           }
           else if (Number(e.date[0]) == year && Number(e.date[1]) == month && Number(e.date[2]) == day && Number(e.date[3]) > hour) {
-            newRes.push(e)
           }
           else if (Number(e.date[0]) == year && Number(e.date[1]) == month && Number(e.date[2]) == day && Number(e.date[3]) == hour && Number(e.date[4]) > min) {
-            newRes.push(e)
           }
           else if (Number(e.date[0]) == year && Number(e.date[1]) == month && Number(e.date[2]) == day && Number(e.date[3]) == hour && Number(e.date[4]) == min && Number(e.date[5]) > sec) {
+          }
+          else {
             newRes.push(e)
           }
         })
-        setUpcomingContest([...newRes])
+        setPastContest([...newRes])
       })
       .catch((error) => {
 
@@ -71,16 +68,11 @@ export default function Home() {
 
   return (
     <div>
-      <Navbar calling="upcomingcontest" />
+      <Navbar calling="pastcontest" />
       {
-        startQuiz ?
-          <div className='sm:p-4' id='quiz-component'>
-            <QuizCard setStartQuiz={setStartQuiz} />
-          </div>
-          :
-          upcomingContest != null && upcomingContest.map((e) => <div key={e.date[0] + e.date[1] + e.date[2] + e.date[3] + e.date[4] + e.date[5]} className='mt-4 mx-2 flex justify-center items-center'>
-            <BasicCard contest={e} setStartQuiz={setStartQuiz} />
-          </div>)
+        pastContest != null && pastContest.map((e) => <div key={e.date[0] + e.date[1] + e.date[2] + e.date[3] + e.date[4] + e.date[5]} className='mt-4 mx-2 flex justify-center items-center'>
+          <BasicCard contest={e} setStartQuiz={setStartQuiz} />
+        </div>)
       }
     </div>
   )

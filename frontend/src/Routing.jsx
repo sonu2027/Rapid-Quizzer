@@ -5,6 +5,8 @@ import Signup from './component/Signup.jsx'
 import Home from './component/Home.jsx'
 import VerifyEmail from './component/VerifyEmail.jsx'
 import ChangePassword from './component/ChangePassword.jsx'
+import PastContest from "./component/PastContest.jsx"
+import Dashboard from "./component/Dashboard.jsx"
 
 function Routing() {
     return (
@@ -12,6 +14,8 @@ function Routing() {
             <Route path='/' element={<Login/>} />
             <Route path='/register' element={<Signup/>} />
             <Route path='/home' element={<Home/>} />
+            <Route path='/pastcontest' element={<PastContest/>} />
+            <Route path='/dashboard' element={<Dashboard/>} />
             <Route path='/verifyemail' element={<VerifyEmail/>} />
             <Route path='/changepassword' element={<ChangePassword/>} />
         </Routes>
