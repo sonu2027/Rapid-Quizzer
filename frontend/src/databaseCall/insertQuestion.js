@@ -8,7 +8,7 @@ const insertQuestion = async () => {
   //   subject: ``,
   //   chapter: ``,
   // };
-  
+
   try {
     let response = await fetch(
       // `http://localhost:8000/api/question/insertquestion`,

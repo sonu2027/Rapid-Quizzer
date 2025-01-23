@@ -110,7 +110,7 @@ export const BasicCard = ({ setStartQuiz, contest }) => {
                 <b>Start : </b>{contest.date[2]}<sup>th</sup> Jan, {contest.date[0]}, {contest.date[3]}:{addLeadingZero(contest.date[4])}
               </CCardText>
               <CCardText>
-                <b>End : </b>{contest.date[2]}<sup>th</sup> Jan, {contest.date[0]}, {contest.date[3]}:{addLeadingZero(Number(contest.date[4])+contest.totalQuestion)}
+                <b>End : </b>{contest.date[2]}<sup>th</sup> Jan, {contest.date[0]}, {Number(contest.date[3])+Number.parseInt((contest.totalQuestion/60))}:{addLeadingZero(Number(contest.date[4])+(contest.totalQuestion%60))}
               </CCardText>
               <div className='flex justify-between items-center'>
                 <button className={`bg-gray-300 px-3 py-2 rounded-md `}>View Details</button>

@@ -35,9 +35,9 @@ export default function PastContest() {
           }
           else if (Number(e.date[0]) == year && Number(e.date[1]) == month && Number(e.date[2]) > day) {
           }
-          else if (Number(e.date[0]) == year && Number(e.date[1]) == month && Number(e.date[2]) == day && Number(e.date[3]) > hour) {
+          else if (Number(e.date[0]) == year && Number(e.date[1]) == month && Number(e.date[2]) == day && Number(e.date[3])+Number.parseInt((e.totalQuestion/60)) > hour) {
           }
-          else if (Number(e.date[0]) == year && Number(e.date[1]) == month && Number(e.date[2]) == day && Number(e.date[3]) == hour && Number(Number(e.date[4])+e.totalQuestion) > min) {
+          else if (Number(e.date[0]) == year && Number(e.date[1]) == month && Number(e.date[2]) == day && Number(e.date[3]) == hour && Number(e.date[4])+(e.totalQuestion%60) > min) {
           }
           else if (Number(e.date[0]) == year && Number(e.date[1]) == month && Number(e.date[2]) == day && Number(e.date[3]) == hour && Number(e.date[4]) == min && Number(e.date[5]) > sec) {
           }
