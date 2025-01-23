@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { CButton, CCard, CCardBody, CCardText, CCardTitle } from '@coreui/react'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import checkCookies from '../databaseCall/checkCookies.js';
+import userRegistartionForContest from '../databaseCall/userRegistrationForContest.js';
+import checkUserContestRegistration from '../databaseCall/checkUserContestRegistration.js';
 
 export const BasicCard = ({ setStartQuiz, contest }) => {
 
   const [date, setDate] = useState(new Date())
   const [contestDate, setContestDate] = useState(null);
   const [timeRemaining, setTimeRemaining] = useState([0, 0, 0, 0])
+  const [ContestRegistartion, setContestRegistration] = useState(false)
 
   useEffect(() => {
     setContestDate(new Date(Number.parseInt(contest.date[0]), Number.parseInt(contest.date[1]), Number(contest.date[2]), Number(contest.date[3]), Number(contest.date[4]), Number(contest.date[5])))
@@ -35,6 +39,55 @@ export const BasicCard = ({ setStartQuiz, contest }) => {
     return () => clearInterval(interval);
   }, [contestDate]);
 
+  const registerUserForContest = () => {
+    checkCookies()
+      .then((res) => {
+        if (res.status) {
+          return res.status; 
+        } else {
+          throw new Error("cookies don't exist");
+        }
+      })
+      .then((status) => {
+        if (status) {
+          return userRegistartionForContest(contest._id); 
+        }
+        throw new Error("User is not authenticated");
+      })
+      .then((registrationResponse) => {
+        if (registrationResponse) {
+          console.log("User registration successful for contest");
+          return checkUserContestRegistration(contest._id); 
+        }
+        throw new Error("Registration failed");
+      })
+      .then((contestRegistrationResponse) => {
+        if (contestRegistrationResponse) {
+          setContestRegistration(true); 
+        } else {
+          throw new Error("User is not registered for the contest");
+        }
+      })
+      .catch((error) => {
+        console.log("User registration failed for contest:", error.message);
+      });
+  };
+
+  useEffect(() => {
+    checkUserContestRegistration(contest._id)
+      .then((res) => {
+        if (res) {
+          setContestRegistration(true)
+        }
+        else {
+          throw new Error("user is not registered")
+        }
+      })
+      .catch((error) => {
+        console.log("Error is: ", error);
+      })
+  }, [])
+
 
   return (
     <>
@@ -58,7 +111,13 @@ export const BasicCard = ({ setStartQuiz, contest }) => {
                   (timeRemaining[0] == 0 && timeRemaining[1] == 0 && timeRemaining[2] == 0 && timeRemaining[3] == 0) ?
                     <button disabled={timeRemaining[0] != 0 || timeRemaining[1] != 0 || timeRemaining[2] != 0 || timeRemaining[3] != 0} className={`bg-blue-500 px-3 py-2 rounded-md text-white`} onClick={() => setStartQuiz(true)}>Start Quiz</button>
                     :
-                    <button className={`bg-green-500 text-white px-3 py-2 rounded-md `}>Register</button>
+                    <>
+                      {
+                        ContestRegistartion ? <button className={`bg-green-500 text-white px-3 py-2 rounded-md `}>Registered</button>
+                          :
+                          <button onClick={() => registerUserForContest()} className={`bg-green-500 text-white px-3 py-2 rounded-md `}>Register</button>
+                      }
+                    </>
                 }
               </div>
             </CCardBody>

@@ -19,6 +19,9 @@ const contestSchema = new Schema(
       type: Number,
       required: true,
     },
+    userRegistered: {
+      type: Array,
+    },
   },
   {
     timestamps: true,
