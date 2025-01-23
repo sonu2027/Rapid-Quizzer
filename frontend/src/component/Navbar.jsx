@@ -3,8 +3,9 @@ import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuIt
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import logoutUser from "../databaseCall/logoutUser.js"
 
-function Navbar({calling}) {
+function Navbar({ calling }) {
 
     const navigate = useNavigate()
 
@@ -47,7 +48,7 @@ function Navbar({calling}) {
                         </div>
                         <div className="hidden sm:ml-6 sm:block">
                             <div className="flex space-x-4">
-                                <button onClick={() => { navigate("/home")}} className={`${calling === "upcomingcontest" ? "bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"}`}>Upcoming Contest</button>
+                                <button onClick={() => { navigate("/home") }} className={`${calling === "upcomingcontest" ? "bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"}`}>Upcoming Contest</button>
 
                                 <button onClick={() => { navigate("/pastcontest") }} className={`${calling === "pastcontest" ? "bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"}`}>Past Contest</button>
 
@@ -83,25 +84,23 @@ function Navbar({calling}) {
                                 className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
                             >
                                 <MenuItem>
-                                    <a
-                                        href="#"
-                                        className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
+                                    <button
+                                        className="w-full text-start block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
                                     >
                                         Your Profile
-                                    </a>
+                                    </button>
                                 </MenuItem>
                                 <MenuItem>
-                                    <a
-                                        href="#"
-                                        className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
+                                    <button
+                                        className="w-full text-start block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
                                     >
                                         Settings
-                                    </a>
+                                    </button>
                                 </MenuItem>
                                 <MenuItem>
                                     <button
                                         onClick={handleLogout}
-                                        className="block px-4 text-left w-full py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
+                                        className=" block px-4 text-left w-full py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
                                     >
                                         Sign out
                                     </button>
@@ -114,11 +113,11 @@ function Navbar({calling}) {
 
             <DisclosurePanel className="sm:hidden">
                 <div className="space-y-1 px-2 pb-3 pt-2">
-                    <button onClick={() => { navigate("/home") }} className={`${item === "upcoming-contest" ? "bg-gray-900 text-white rounded-md px-3 py-2 block  text-base font-medium" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 block text-base font-medium"}`}>upcoming Contest</button>
+                    <button onClick={() => { navigate("/home") }} className={`${calling === "upcomingcontest" ? "bg-gray-900 text-white rounded-md px-3 py-2 block  text-base font-medium" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 block text-base font-medium"}`}>upcoming Contest</button>
 
-                    <button onClick={() => { navigate("/pastcontest") }} className={`${item === "past-contest" ? "bg-gray-900 text-white rounded-md px-3 py-2 block  text-base font-medium" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 block text-base font-medium"}`}>Past Contest</button>
+                    <button onClick={() => { navigate("/pastcontest") }} className={`${calling === "pastcontest" ? "bg-gray-900 text-white rounded-md px-3 py-2 block  text-base font-medium" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 block text-base font-medium"}`}>Past Contest</button>
 
-                    <button onClick={() => { navigate("/dashboard") }} className={`${item === "dashboard" ? "bg-gray-900 text-white rounded-md px-3 py-2 block  text-base font-medium" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 block text-base font-medium"}`}>Dashboard</button>
+                    <button onClick={() => { navigate("/dashboard") }} className={`${calling === "dashboard" ? "bg-gray-900 text-white rounded-md px-3 py-2 block  text-base font-medium" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 block text-base font-medium"}`}>Dashboard</button>
                 </div>
             </DisclosurePanel>
         </Disclosure>
