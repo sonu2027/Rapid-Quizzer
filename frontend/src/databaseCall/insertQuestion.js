@@ -1,4 +1,4 @@
-const insertQuestion = async () => {
+const insertQuestion = async (data) => {
   // `${import.meta.env.VITE_API_URL}/api/question/insertquestion`,
   // let data = {
   //   question: ``,
@@ -33,10 +33,16 @@ const insertQuestion = async () => {
   }
 };
 
-insertQuestion()
-  .then((res) => {
-    console.log("Res is: ", res);
-  })
-  .catch((error) => {
-    console.error("Error is: ", error);
-  });
+const insertAllQuestions = async (data) => {
+  try {
+    const results = await Promise.all(
+      data.map((question) => insertQuestion(question))
+    );
+    console.log("All questions inserted successfully:", results);
+  } catch (error) {
+    console.error("Error inserting questions:", error);
+  }
+};
+
+let data = []
+insertAllQuestions(data);
