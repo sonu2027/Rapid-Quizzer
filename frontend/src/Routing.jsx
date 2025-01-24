@@ -7,6 +7,7 @@ import VerifyEmail from './component/VerifyEmail.jsx'
 import ChangePassword from './component/ChangePassword.jsx'
 import PastContest from "./component/PastContest.jsx"
 import Dashboard from "./component/Dashboard.jsx"
+import AddContest from './component/AddContest.jsx'
 
 function Routing() {
     return (
@@ -18,6 +19,7 @@ function Routing() {
             <Route path='/dashboard' element={<Dashboard/>} />
             <Route path='/verifyemail' element={<VerifyEmail/>} />
             <Route path='/changepassword' element={<ChangePassword/>} />
+            <Route path='/home/addcontest' element={<AddContest/>} />
         </Routes>
     )
 }

@@ -5,12 +5,10 @@ const contestSchema = new Schema(
     date: {
       type: Array,
       required: true,
-      unique: true,
     },
     subject: {
       type: String,
       required: true,
-      index: true,
     },
     chapter: {
       type: String,

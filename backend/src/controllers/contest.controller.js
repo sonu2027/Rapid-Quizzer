@@ -1,40 +1,4 @@
 import { Contest } from "../models/contest.model.js";
-import { Question } from "../models/question.model.js";
-
-const insertContest = async (req, res) => {
-  console.log("req.difficulty, body: ", req.body);
-  const { question, options, answer, difficulty, subject, chapter } = req.body;
-  try {
-    const questions = await Question.create({
-      question,
-      options,
-      answer,
-      difficulty,
-      subject,
-      chapter,
-    });
-
-    const createdQuestion = await Question.findById(questions._id);
-
-    if (!createdQuestion) {
-      throw new ApiError(
-        500,
-        "Something went wrong while inserting the question"
-      );
-    }
-
-    return res.status(201).json({
-      data: createdQuestion,
-      message: "Question Inserted Successfully",
-    });
-  } catch (error) {
-    console.log("Error is: ", error);
-    return res.status(500).json({
-      error,
-      message: "Something went wrong while inserting question",
-    });
-  }
-};
 
 const fetchContest = async (req, res) => {
   try {
@@ -107,9 +71,34 @@ const checkUserContestRegistration = async (req, res) => {
   }
 };
 
+const addContest = async (req, res) => {
+  console.log("addContest data: ", req.body);
+  const { date, subject, chapter, totalQuestion } = req.body;
+  const temp = Number(totalQuestion);
+  try {
+    const contest = await Contest.create({
+      date,
+      subject,
+      chapter,
+      totalQuestion: temp,
+    });
+
+    return res.status(201).json({
+      data: contest,
+      message: "Contest added Successfully",
+    });
+  } catch (error) {
+    console.log("Error is: ", error);
+    return res.status(500).json({
+      error,
+      message: "Something went wrong while adding contest",
+    });
+  }
+};
+
 export {
-  insertContest,
   fetchContest,
   UserRegistartionForContest,
   checkUserContestRegistration,
+  addContest,
 };

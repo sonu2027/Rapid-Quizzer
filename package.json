@@ -1,5 +1,10 @@
 {
   "dependencies": {
-    "bootstrap": "^5.3.3"
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^6.4.1",
+    "@mui/x-date-pickers": "^7.24.0",
+    "bootstrap": "^5.3.3",
+    "dayjs": "^1.11.13"
   }
 }
