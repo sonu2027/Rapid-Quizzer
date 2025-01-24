@@ -12,6 +12,7 @@ export default function Home() {
 
   const [startQuiz, setStartQuiz] = useState(false)
   const [upcomingContest, setUpcomingContest] = useState([])
+  const [contestSelected, setContestSelected]=useState(null)
 
   useEffect(() => {
     fetchContest()
@@ -75,11 +76,11 @@ export default function Home() {
       {
         startQuiz ?
           <div className='sm:p-4' id='quiz-component'>
-            <QuizCard setStartQuiz={setStartQuiz} />
+            <QuizCard contest={contestSelected} setStartQuiz={setStartQuiz} />
           </div>
           :
           upcomingContest != null && upcomingContest.map((e) => <div key={e.date[0] + e.date[1] + e.date[2] + e.date[3] + e.date[4] + e.date[5]} className='mt-4 mx-2 flex justify-center items-center'>
-            <BasicCard contest={e} setStartQuiz={setStartQuiz} />
+            <BasicCard contest={e} setContestSelected={setContestSelected} setStartQuiz={setStartQuiz} />
           </div>)
       }
     </div>

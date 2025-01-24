@@ -3,18 +3,18 @@ import { useEffect, useState, useRef } from 'react'
 import QuizOption from './QuizOption.jsx'
 import fetchQuestion from '../databaseCall/fetchQuestion.js'
 
-const QuizCard = ({ setStartQuiz }) => {
+const QuizCard = ({ setStartQuiz, contest }) => {
     const [activeQuestion, setActiveQuestion] = useState(0)
     const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null)
-    const [timer, setTimer] = useState(10)
+    const [timer, setTimer] = useState(1)
     const [currentTime, setCurrentTime] = useState(60)
     const [allQuestion, setAllQuestion] = useState([])
     const [obtainMarks, setObtainMarks] = useState(0)
     const [showResult, setShowResult] = useState(false)
-    let clickedNext=false
+    let clickedNext = false
 
     const onClickNext = () => {
-        clickedNext=true
+        clickedNext = true
         console.log("answerselected is: ", allQuestion[activeQuestion].options[selectedAnswerIndex]);
 
         console.log("obtain marks is: ", obtainMarks);
@@ -33,10 +33,10 @@ const QuizCard = ({ setStartQuiz }) => {
                 setShowResult(false)
                 setActiveQuestion(0)
                 setSelectedAnswerIndex(null)
-                setTimer(10)
+                setTimer(1)
                 setObtainMarks(0)
                 setStartQuiz(false)
-            }, 5000)
+            }, 8000)
         }
     }
 
@@ -55,10 +55,10 @@ const QuizCard = ({ setStartQuiz }) => {
                 setShowResult(false)
                 setActiveQuestion(0)
                 setSelectedAnswerIndex(null)
-                setTimer(10)
+                setTimer(1)
                 setObtainMarks(0)
                 setStartQuiz(false)
-            }, 5000)
+            }, 8000)
         }
     }, [timer])
 
@@ -66,10 +66,23 @@ const QuizCard = ({ setStartQuiz }) => {
         number > 9 ? number : `0${number}`
 
     useEffect(() => {
+        setTimer(contest.totalQuestion)
         fetchQuestion()
             .then((res) => {
-                console.log("res: ", res[0].options);
-                setAllQuestion(res)
+                console.log("res options: ", res, res[0].options);
+                let newRes = []
+                res.map((e) => {
+                    if (e.chapter === `${contest.chapter}`) {
+                        newRes.push(e)
+                    }
+                })
+                let newArray = []
+                for (let i = 0; i < contest.totalQuestion; i++) {
+                    let randomIndex = Math.floor(Math.random() * (contest.totalQuestion - i));
+                    newArray.push(newRes[randomIndex])
+                    newRes.splice(randomIndex, 1);
+                }
+                setAllQuestion(newArray)
             })
             .catch((error) => {
 
@@ -86,7 +99,7 @@ const QuizCard = ({ setStartQuiz }) => {
             }
             if (clickedNext) {
                 setCurrentTime(60)
-                clickedNext=false
+                clickedNext = false
                 clearInterval(interval)
                 return
             }
@@ -111,7 +124,7 @@ const QuizCard = ({ setStartQuiz }) => {
                 allQuestion.length === 0 || showResult ?
                     <div ref={componentRef} className='className="mx-auto max-w-3xl rounded-md sm:border sm:border-[#444444] bg-[#1e293b] px-[15px] py-[15px] sm:px-[60px] sm:py-[30px]'>
                         <h2>Final score</h2>
-                        <h3>You got {obtainMarks} out of 10</h3>
+                        <h3>You got {obtainMarks} out of {contest.totalQuestion}</h3>
                     </div>
                     :
                     <div className="mx-auto max-w-3xl rounded-md sm:border sm:border-[#444444] bg-[#1e293b] px-[15px] py-[15px] sm:px-[60px] sm:py-[30px]">
@@ -127,7 +140,7 @@ const QuizCard = ({ setStartQuiz }) => {
                                     {activeQuestion + 1}
                                 </span>
                                 <span className="text-lg font-medium text-[#817a8e]">
-                                    /{10}
+                                    /{contest.totalQuestion}
                                 </span>
                             </div>
                             <div className="flex w-[150px] items-center gap-2">
