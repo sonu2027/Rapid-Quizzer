@@ -11,7 +11,7 @@ const fetchContest = async (req, res) => {
 };
 
 const UserRegistartionForContest = async (req, res) => {
-  const { contestId } = req.body;
+  const { contestId, initialScore, timeTaken } = req.body;
   let userCookie = req.signedCookies.userDetail;
   userCookie = JSON.parse(userCookie);
   const userId = userCookie.id;
@@ -19,7 +19,7 @@ const UserRegistartionForContest = async (req, res) => {
   try {
     const response = await Contest.updateOne(
       { _id: contestId },
-      { $addToSet: { userRegistered: userId } }
+      { $addToSet: { userRegistered: [userId, initialScore, timeTaken] } }
     );
     console.log("response: ", response);
 
@@ -52,7 +52,7 @@ const checkUserContestRegistration = async (req, res) => {
 
     if (response) {
       response.userRegistered.map((e) => {
-        if (e == userId) {
+        if (e[0] == userId) {
           userFound = true;
         }
       });
@@ -96,9 +96,40 @@ const addContest = async (req, res) => {
   }
 };
 
+const setScoreAndTimetaken = async (req, res) => {
+  console.log("req.scoreandtime: ", req.body);
+  const { contestId, score, timeTaken } = req.body;
+
+  let userCookie = req.signedCookies.userDetail;
+  userCookie = JSON.parse(userCookie);
+  const userId = userCookie.id;
+
+  try {
+    const contest = await Contest.updateOne(
+      { _id: contestId },
+      { $addToSet: { performance: [userId, score, timeTaken] } }
+    );
+    if (contest) {
+      res.status(200).json({
+        contest,
+        status: true,
+        message: "user score submitted successfully",
+      });
+      return;
+    }
+    res
+      .status(500)
+      .json({ status: false, message: "user score submission failed" });
+  } catch (error) {
+    console.log("error is: ", error);
+    res.status(500).json({ error: "something went wrong" });
+  }
+};
+
 export {
   fetchContest,
   UserRegistartionForContest,
   checkUserContestRegistration,
   addContest,
+  setScoreAndTimetaken,
 };

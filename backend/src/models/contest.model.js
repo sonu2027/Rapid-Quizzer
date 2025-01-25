@@ -20,6 +20,9 @@ const contestSchema = new Schema(
     userRegistered: {
       type: Array,
     },
+    performance: {
+      type: Array,
+    },
   },
   {
     timestamps: true,

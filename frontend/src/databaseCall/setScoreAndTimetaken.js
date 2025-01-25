@@ -1,15 +1,15 @@
-const userRegistartionForContest = async (contestId) => {
-  const initialScore=0
-  const timeTaken=0
+const setScoreAndTimetaken = async (contestId, score, timeTaken) => {
+  console.log("contestId, score, timeTaken: ", contestId, score, timeTaken);
+
   try {
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/api/contest/userregistartionforcontest`,
+      `${import.meta.env.VITE_API_URL}/api/contest/setscoreandtimetaken`,
       {
         headers: {
           "Content-Type": "application/json",
         },
         method: "PUT",
-        body: JSON.stringify({ contestId, initialScore, timeTaken }),
+        body: JSON.stringify({ contestId, score, timeTaken }),
         credentials: "include",
       }
     );
@@ -17,8 +17,7 @@ const userRegistartionForContest = async (contestId) => {
     let data;
     if (response.ok) {
       data = await response.json();
-      console.log("data: ", data);
-      return data.status;
+      return data;
     }
     throw error;
   } catch (error) {
@@ -26,4 +25,4 @@ const userRegistartionForContest = async (contestId) => {
   }
 };
 
-export default userRegistartionForContest;
+export default setScoreAndTimetaken;

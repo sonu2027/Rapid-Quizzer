@@ -2,6 +2,7 @@ import { Timer } from 'lucide-react'
 import { useEffect, useState, useRef } from 'react'
 import QuizOption from './QuizOption.jsx'
 import fetchQuestion from '../databaseCall/fetchQuestion.js'
+import setScoreAndTimetaken from '../databaseCall/setScoreAndTimetaken.js'
 
 const QuizCard = ({ setStartQuiz, contest }) => {
     const [activeQuestion, setActiveQuestion] = useState(0)
@@ -11,13 +12,12 @@ const QuizCard = ({ setStartQuiz, contest }) => {
     const [allQuestion, setAllQuestion] = useState([])
     const [obtainMarks, setObtainMarks] = useState(0)
     const [showResult, setShowResult] = useState(false)
+    const [timeTaken, setTimeTaken] = useState(0)
     let clickedNext = false
 
     const onClickNext = () => {
         clickedNext = true
         console.log("answerselected is: ", allQuestion[activeQuestion].options[selectedAnswerIndex]);
-
-        console.log("obtain marks is: ", obtainMarks);
 
         if (allQuestion[activeQuestion].options[selectedAnswerIndex] == allQuestion[activeQuestion].answer) {
             setObtainMarks((prev) => prev + 1)
@@ -28,13 +28,24 @@ const QuizCard = ({ setStartQuiz, contest }) => {
         if (activeQuestion !== allQuestion.length - 1) {
             setActiveQuestion((prev) => prev + 1)
         } else {
+            let totalMinTaken = timeTaken - timer
+            let totalSecTaken = 60 - currentTime
+            let totalTimeTaken = (totalMinTaken * 60) + totalSecTaken
+
+            setScoreAndTimetaken(contest._id, obtainMarks, totalTimeTaken)
+                .then((res) => {
+
+                })
+                .catch((error) => {
+
+                })
+
             setShowResult(true)
             setTimeout(() => {
                 setShowResult(false)
                 setActiveQuestion(0)
                 setSelectedAnswerIndex(null)
                 setTimer(1)
-                setObtainMarks(0)
                 setStartQuiz(false)
             }, 8000)
         }
@@ -50,13 +61,22 @@ const QuizCard = ({ setStartQuiz, contest }) => {
             return () => clearInterval(countdown)
         }
         else {
+            let totalTimeTaken = timeTaken * 60
+
+            setScoreAndTimetaken(contest._id, obtainMarks, totalTimeTaken)
+                .then((res) => {
+
+                })
+                .catch((error) => {
+
+                })
+
             setShowResult(true)
             setTimeout(() => {
                 setShowResult(false)
                 setActiveQuestion(0)
                 setSelectedAnswerIndex(null)
                 setTimer(1)
-                setObtainMarks(0)
                 setStartQuiz(false)
             }, 8000)
         }
@@ -67,6 +87,7 @@ const QuizCard = ({ setStartQuiz, contest }) => {
 
     useEffect(() => {
         setTimer(contest.totalQuestion)
+        setTimeTaken(contest.totalQuestion)
         fetchQuestion()
             .then((res) => {
                 console.log("res options: ", res, res[0].options);
@@ -164,7 +185,7 @@ const QuizCard = ({ setStartQuiz, contest }) => {
                         </form>
                         <div className="flex justify-end">
                             <button
-                                onClick={onClickNext}
+                                onClick={() => onClickNext()}
                                 disabled={selectedAnswerIndex === null}
                                 className="mt-12 min-w-[150px] transform cursor-pointer rounded-md border border-[#38bdf8] bg-[#38bdf8] px-5 py-1.5 text-lg font-semibold text-white outline-none transition duration-300 ease-in-out hover:scale-105 hover:bg-[#1d4ed8] active:scale-95 active:bg-[#1e40af] disabled:cursor-not-allowed disabled:border-gray-500 disabled:bg-gray-800 disabled:text-gray-500 disabled:hover:scale-100"
                             >
