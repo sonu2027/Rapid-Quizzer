@@ -103,11 +103,13 @@ const setScoreAndTimetaken = async (req, res) => {
   let userCookie = req.signedCookies.userDetail;
   userCookie = JSON.parse(userCookie);
   const userId = userCookie.id;
+  const username = userCookie.username;
+  const fullName = userCookie.fullName;
 
   try {
     const contest = await Contest.updateOne(
       { _id: contestId },
-      { $addToSet: { performance: [userId, score, timeTaken] } }
+      { $addToSet: { performance: [userId, score, timeTaken, username, fullName] } }
     );
     if (contest) {
       res.status(200).json({

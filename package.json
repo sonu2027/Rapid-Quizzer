@@ -5,6 +5,8 @@
     "@mui/material": "^6.4.1",
     "@mui/x-date-pickers": "^7.24.0",
     "bootstrap": "^5.3.3",
-    "dayjs": "^1.11.13"
+    "dayjs": "^1.11.13",
+    "nanoid": "^5.0.9",
+    "uuid": "^11.0.5"
   }
 }

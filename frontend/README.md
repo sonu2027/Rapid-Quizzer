@@ -1,1 +1,1 @@
-visit website : quizrecommendation.vercel.app
+visit website : https://playquizes.vercel.app
