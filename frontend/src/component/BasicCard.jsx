@@ -124,7 +124,7 @@ export const BasicCard = ({ setStartQuiz, contest, setContestSelected }) => {
               </div>
               <CCardTitle>{contest.subject} - {contest.chapter}</CCardTitle>
               <CCardText>
-                <b>Start : </b>{contest.date[2]}<sup>th</sup> Jan, {contest.date[0]}, {contest.date[3]}:{addLeadingZero(contest.date[4])}
+                <b>Start : </b>{contest.date[2]}<sup>th</sup> Jan, {contest.date[0]}, {addLeadingZero(contest.date[3])}:{addLeadingZero(contest.date[4])}
               </CCardText>
               <div className='flex justify-between items-center'>
                 <button className={`bg-gray-300 px-3 py-2 rounded-md `}>View Details</button>

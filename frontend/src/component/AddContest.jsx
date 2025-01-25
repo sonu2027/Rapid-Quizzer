@@ -101,7 +101,7 @@ export default function AddContest() {
                                                 checked={subject === "Reasoning"}
                                                 onChange={() => {
                                                     setSubject("Reasoning")
-                                                    const temp = ["Coding-Decoding", "Blood Relation", "Seating arrangement", "Directional Sense"]
+                                                    const temp = ["Coding-Decoding", "Blood Relation", "Seating Arrangement", "Directional Sense"]
                                                     setChapter([...temp])
                                                 }}
                                                 id="reasoning"

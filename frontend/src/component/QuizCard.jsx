@@ -90,13 +90,15 @@ const QuizCard = ({ setStartQuiz, contest }) => {
         setTimeTaken(contest.totalQuestion)
         fetchQuestion()
             .then((res) => {
-                console.log("res options: ", res, res[0].options);
                 let newRes = []
                 res.map((e) => {
+
                     if (e.chapter === `${contest.chapter}`) {
+                        console.log("e.chapter === `${contest.chapter}`", e.chapter, contest.chapter);
                         newRes.push(e)
                     }
                 })
+
                 let newArray = []
                 for (let i = 0; i < contest.totalQuestion; i++) {
                     let randomIndex = Math.floor(Math.random() * (contest.totalQuestion - i));
@@ -104,6 +106,7 @@ const QuizCard = ({ setStartQuiz, contest }) => {
                     newRes.splice(randomIndex, 1);
                 }
                 setAllQuestion(newArray)
+
             })
             .catch((error) => {
 

@@ -35,9 +35,9 @@ export default function PastContest() {
           }
           else if (Number(e.date[0]) == year && Number(e.date[1]) == month && Number(e.date[2]) > day) {
           }
-          else if (Number(e.date[0]) == year && Number(e.date[1]) == month && Number(e.date[2]) == day && Number(e.date[3])+Number.parseInt((e.totalQuestion/60)) > hour) {
+          else if (Number(e.date[0]) == year && Number(e.date[1]) == month && Number(e.date[2]) == day && Number(e.date[3]) + Number.parseInt((e.totalQuestion / 60)) > hour) {
           }
-          else if (Number(e.date[0]) == year && Number(e.date[1]) == month && Number(e.date[2]) == day && Number(e.date[3]) == hour && Number(e.date[4])+(e.totalQuestion%60) > min) {
+          else if (Number(e.date[0]) == year && Number(e.date[1]) == month && Number(e.date[2]) == day && Number(e.date[3]) == hour && Number(e.date[4]) + (e.totalQuestion % 60) > min) {
           }
           else if (Number(e.date[0]) == year && Number(e.date[1]) == month && Number(e.date[2]) == day && Number(e.date[3]) == hour && Number(e.date[4]) == min && Number(e.date[5]) > sec) {
           }
@@ -45,6 +45,37 @@ export default function PastContest() {
             newRes.push(e)
           }
         })
+
+        for (let i = 0; i < newRes.length; i++) {
+          for (let j = i + 1; j < newRes.length; j++) {
+            if (newRes[i].date[0] > newRes[j].date[0]) {
+              let temp = newRes[i]
+              newRes[i] = newRes[j]
+              newRes[j] = temp;
+            }
+            else if (newRes[i].date[0] == newRes[j].date[0] && newRes[i].date[1] > newRes[j].date[1]) {
+              let temp = newRes[i]
+              newRes[i] = newRes[j]
+              newRes[j] = temp;
+            }
+            else if (newRes[i].date[0] == newRes[j].date[0] && newRes[i].date[1] == newRes[j].date[1] && newRes[i].date[2] > newRes[j].date[2]) {
+              let temp = newRes[i]
+              newRes[i] = newRes[j]
+              newRes[j] = temp;
+            }
+            else if (newRes[i].date[0] == newRes[j].date[0] && newRes[i].date[1] == newRes[j].date[1] && newRes[i].date[2] == newRes[j].date[2] && newRes[i].date[3] > newRes[j].date[3]) {
+              let temp = newRes[i]
+              newRes[i] = newRes[j]
+              newRes[j] = temp;
+            }
+            else if (newRes[i].date[0] == newRes[j].date[0] && newRes[i].date[1] == newRes[j].date[1] && newRes[i].date[2] == newRes[j].date[2] && newRes[i].date[3] == newRes[j].date[3] && newRes[i].date[4] > newRes[j].date[4]) {
+              let temp = newRes[i]
+              newRes[i] = newRes[j]
+              newRes[j] = temp;
+            }
+          }
+        }
+
         setPastContest([...newRes])
       })
       .catch((error) => {
