@@ -5,16 +5,44 @@ import checkCookies from '../databaseCall/checkCookies.js';
 import userRegistartionForContest from '../databaseCall/userRegistrationForContest.js';
 import checkUserContestRegistration from '../databaseCall/checkUserContestRegistration.js';
 import { toast } from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom';
 
 export const BasicCard = ({ setStartQuiz, contest, setContestSelected }) => {
+
+  const navigate = useNavigate()
 
   const [date, setDate] = useState(new Date())
   const [contestDate, setContestDate] = useState(null);
   const [timeRemaining, setTimeRemaining] = useState([0, 0, 0, 0])
   const [ContestRegistartion, setContestRegistration] = useState(false)
+  const [month, setMonth] = useState(null)
 
   useEffect(() => {
     setContestDate(new Date(Number.parseInt(contest.date[0]), Number.parseInt(contest.date[1]), Number(contest.date[2]), Number(contest.date[3]), Number(contest.date[4]), Number(contest.date[5])))
+    if (contest.date[1] == 0)
+      setMonth("jan")
+    else if (contest.date[1] == 1)
+      setMonth("feb")
+    else if (contest.date[1] == 2)
+      setMonth("mar")
+    else if (contest.date[1] == 3)
+      setMonth("apr")
+    else if (contest.date[1] == 4)
+      setMonth("may")
+    else if (contest.date[1] == 5)
+      setMonth("jun")
+    else if (contest.date[1] == 6)
+      setMonth("jul")
+    else if (contest.date[1] == 7)
+      setMonth("aug")
+    else if (contest.date[1] == 8)
+      setMonth("sep")
+    else if (contest.date[1] == 9)
+      setMonth("oct")
+    else if (contest.date[1] == 10)
+      setMonth("nov")
+    else if (contest.date[1] == 11)
+      setMonth("dec")
   }, [])
 
   useEffect(() => {
@@ -110,6 +138,10 @@ export const BasicCard = ({ setStartQuiz, contest, setContestSelected }) => {
       })
   }
 
+  const showContestDetail = () => {
+    navigate("/home/eventdetails", { state: { contest } })
+  }
+
   return (
     <>
       {
@@ -124,10 +156,10 @@ export const BasicCard = ({ setStartQuiz, contest, setContestSelected }) => {
               </div>
               <CCardTitle>{contest.subject} - {contest.chapter}</CCardTitle>
               <CCardText>
-                <b>Start : </b>{contest.date[2]}<sup>th</sup> Jan, {contest.date[0]}, {addLeadingZero(contest.date[3])}:{addLeadingZero(contest.date[4])}
+                <b>Start : </b>{contest.date[2]}<sup>th</sup> {month}, {contest.date[0]}, {addLeadingZero(contest.date[3])}:{addLeadingZero(contest.date[4])}
               </CCardText>
               <div className='flex justify-between items-center'>
-                <button className={`bg-gray-300 px-3 py-2 rounded-md `}>View Details</button>
+                <button onClick={showContestDetail} className={`bg-gray-300 px-3 py-2 rounded-md `}>View Details</button>
                 {
                   (timeRemaining[0] == 0 && timeRemaining[1] == 0 && timeRemaining[2] == 0 && timeRemaining[3] == 0) ?
                     <button disabled={timeRemaining[0] != 0 || timeRemaining[1] != 0 || timeRemaining[2] != 0 || timeRemaining[3] != 0} className={`bg-blue-500 px-3 py-2 rounded-md text-white`} onClick={() => handleStartQuiz()}>Start Quiz</button>

@@ -52,7 +52,7 @@ function Navbar({ calling }) {
 
                                 <button onClick={() => { navigate("/pastcontest") }} className={`${calling === "pastcontest" ? "bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"}`}>Past Contest</button>
 
-                                <button onClick={() => { navigate("/dashboard") }} className={`${calling === "dashboard" ? "bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"}`}>Dashboard</button>
+                                <button onClick={() => { navigate("/leaderboard") }} className={`${calling === "dashboard" ? "bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"}`}>Leaderboard</button>
                             </div>
                         </div>
                     </div>
@@ -117,7 +117,7 @@ function Navbar({ calling }) {
 
                     <button onClick={() => { navigate("/pastcontest") }} className={`${calling === "pastcontest" ? "bg-gray-900 text-white rounded-md px-3 py-2 block  text-base font-medium" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 block text-base font-medium"}`}>Past Contest</button>
 
-                    <button onClick={() => { navigate("/dashboard") }} className={`${calling === "dashboard" ? "bg-gray-900 text-white rounded-md px-3 py-2 block  text-base font-medium" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 block text-base font-medium"}`}>Dashboard</button>
+                    <button onClick={() => { navigate("/leaderboard") }} className={`${calling === "dashboard" ? "bg-gray-900 text-white rounded-md px-3 py-2 block  text-base font-medium" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 block text-base font-medium"}`}>Leaderboard</button>
                 </div>
             </DisclosurePanel>
         </Disclosure>
