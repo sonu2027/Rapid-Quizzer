@@ -6,6 +6,7 @@ import userRegistartionForContest from '../databaseCall/userRegistrationForConte
 import checkUserContestRegistration from '../databaseCall/checkUserContestRegistration.js';
 import { toast } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom';
+import { checkuserContestAttempted } from '../databaseCall/checkuserContestAttempted.js';
 
 export const BasicCard = ({ setStartQuiz, contest, setContestSelected }) => {
 
@@ -16,6 +17,7 @@ export const BasicCard = ({ setStartQuiz, contest, setContestSelected }) => {
   const [timeRemaining, setTimeRemaining] = useState([0, 0, 0, 0])
   const [ContestRegistartion, setContestRegistration] = useState(false)
   const [month, setMonth] = useState(null)
+  const [quizAttempted, setQuizAttempted] = useState(null)
 
   useEffect(() => {
     setContestDate(new Date(Number.parseInt(contest.date[0]), Number.parseInt(contest.date[1]), Number(contest.date[2]), Number(contest.date[3]), Number(contest.date[4]), Number(contest.date[5])))
@@ -117,6 +119,18 @@ export const BasicCard = ({ setStartQuiz, contest, setContestSelected }) => {
       })
   }, [])
 
+  useEffect(() => {
+    checkuserContestAttempted(contest._id)
+      .then((res) => {
+        console.log("res come from quiz attempted is : ", res);
+        setQuizAttempted(true)
+      })
+      .catch((error) => {
+        console.log("Error is: ", error);
+      })
+  }, [])
+
+
   const addLeadingZero = (number) =>
     number > 9 ? number : `0${number}`
 
@@ -161,14 +175,19 @@ export const BasicCard = ({ setStartQuiz, contest, setContestSelected }) => {
               <div className='flex justify-between items-center'>
                 <button onClick={showContestDetail} className={`bg-gray-300 px-3 py-2 rounded-md `}>View Details</button>
                 {
-                  (timeRemaining[0] == 0 && timeRemaining[1] == 0 && timeRemaining[2] == 0 && timeRemaining[3] == 0) ?
+                  (timeRemaining[0] == 0 && timeRemaining[1] == 0 && timeRemaining[2] == 0 && timeRemaining[3] == 0) && !quizAttempted ?
                     <button disabled={timeRemaining[0] != 0 || timeRemaining[1] != 0 || timeRemaining[2] != 0 || timeRemaining[3] != 0} className={`bg-blue-500 px-3 py-2 rounded-md text-white`} onClick={() => handleStartQuiz()}>Start Quiz</button>
                     :
                     <>
                       {
-                        ContestRegistartion ? <button className={`bg-green-500 text-white px-3 py-2 rounded-md `}>Registered</button>
-                          :
-                          <button onClick={() => registerUserForContest()} className={`bg-green-500 text-white px-3 py-2 rounded-md `}>Register</button>
+                        quizAttempted ? <button className={`bg-green-500 text-white px-3 py-2 rounded-md `}>Attempted</button> :
+                          <>
+                            {
+                              ContestRegistartion ? <button className={`bg-green-500 text-white px-3 py-2 rounded-md `}>Registered</button>
+                                :
+                                <button onClick={() => registerUserForContest()} className={`bg-green-500 text-white px-3 py-2 rounded-md `}>Register</button>
+                            }
+                          </>
                       }
                     </>
                 }

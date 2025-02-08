@@ -5,6 +5,7 @@ import {
   checkUserContestRegistration,
   addContest,
   setScoreAndTimetaken,
+  checkUserContestAttempted,
 } from "../controllers/contest.controller.js";
 
 const router = Router();
@@ -15,5 +16,6 @@ router
   .post(checkUserContestRegistration);
 router.route("/addcontest").post(addContest);
 router.route("/setscoreandtimetaken").put(setScoreAndTimetaken);
+router.route("/checkusercontestattempted").post(checkUserContestAttempted);
 
 export default router;

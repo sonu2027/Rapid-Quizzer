@@ -109,7 +109,11 @@ const setScoreAndTimetaken = async (req, res) => {
   try {
     const contest = await Contest.updateOne(
       { _id: contestId },
-      { $addToSet: { performance: [userId, score, timeTaken, username, fullName] } }
+      {
+        $addToSet: {
+          performance: [userId, score, timeTaken, username, fullName],
+        },
+      }
     );
     if (contest) {
       res.status(200).json({
@@ -128,10 +132,57 @@ const setScoreAndTimetaken = async (req, res) => {
   }
 };
 
+const checkUserContestAttempted = async (req, res) => {
+  console.log("data got from client: ", req.body);
+  const { contestId } = req.body;
+  let userCookie = req.signedCookies.userDetail;
+  if (!userCookie) {
+    res
+      .status(400)
+      .json({ message: "Internal server error, cookies don't exist" });
+    return;
+  }
+
+  userCookie = JSON.parse(userCookie);
+  const userId = userCookie.id;
+  const username = userCookie.username;
+  const fullName = userCookie.fullName;
+
+  let searchUserId = false;
+
+  try {
+    const contest = await Contest.findById({ _id: contestId });
+
+    if (contest) {
+      contest.performance.map((e) => {
+        if (e[0] == userId) {
+          searchUserId = true;
+          console.log(
+            "e[0] and userId: ",
+            e[0],
+            userId,
+            typeof e[0],
+            typeof userId
+          );
+        }
+      });
+      if (searchUserId)
+        res.status(200).json({ message: "user had attempted the quiz" });
+      else res.status(500).json({ message: "User hadn't attempted the quiz" });
+      return;
+    }
+    res.status(500).json({ message: "Contest doesn't found" });
+  } catch (error) {
+    console.log("error is: ", error);
+    res.status(400).json({ error: "Internal server error" });
+  }
+};
+
 export {
   fetchContest,
   UserRegistartionForContest,
   checkUserContestRegistration,
   addContest,
   setScoreAndTimetaken,
+  checkUserContestAttempted,
 };

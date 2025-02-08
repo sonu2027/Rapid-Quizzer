@@ -16,6 +16,7 @@ export default function PastContest() {
   useEffect(() => {
     fetchContest()
       .then((res) => {
+
         console.log("res: ", res);
         console.log("contest date: ", res[0].date);
 
