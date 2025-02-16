@@ -67,8 +67,8 @@ function VerifyEmail() {
     return (
         <div className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-12">
             <div className="relative bg-white px-6 pt-10 pb-9 shadow-xl mx-auto w-full max-w-lg rounded-2xl">
-                <div className="mx-auto flex w-full max-w-md flex-col space-y-16">
-                    <div className="flex flex-col items-center justify-center text-center space-y-2">
+                <div className="mx-auto flex w-full max-w-md flex-col space-y-8">
+                    <div className="flex flex-col items-center justify-center text-center space-y-1">
                         <div className="font-semibold text-3xl">
                             <p>Email Verification</p>
                         </div>
@@ -79,7 +79,7 @@ function VerifyEmail() {
 
                     <div>
                         <form action="" method="post">
-                            <div className="flex flex-col space-y-16">
+                            <div className="flex flex-col space-y-6">
                                 {/* Input Fields */}
                                 <div className="flex flex-row items-center justify-between mx-auto w-full max-w-xs">
                                     {[0, 1, 2, 3].map((index) => (
@@ -100,14 +100,14 @@ function VerifyEmail() {
 
                                 <div className="flex flex-col space-y-5">
                                     <div>
-                                        <button className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-blue-700 border-none text-white text-sm shadow-sm">
+                                        <button className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-2 bg-blue-700 border-none text-white text-sm shadow-sm">
                                             Verify Account
                                         </button>
                                     </div>
 
-                                    <div className="flex flex-row items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
+                                    <div className="flex justify-center space-x-1 text-sm font-medium text-gray-500">
                                         <p>Didn't receive code?</p>
-                                        <a className="flex flex-row items-center text-blue-600" href="http://" target="_blank" rel="noopener noreferrer">Resend</a>
+                                        <a className="text-blue-600" href="http://" target="_blank">Resend</a>
                                     </div>
                                 </div>
                             </div>

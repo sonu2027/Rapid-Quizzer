@@ -88,16 +88,16 @@ function Dashboard() {
   return (
     <div>
       <Navbar calling="dashboard" />
-      <div className='flex flex-column gap-y-14'>
+      <div className='flex flex-column gap-y-14 my-8 mx-4'>
         {
           contest != null && contest.map((e) =>
             <div key={e._id}>
 
               <div className='flex justify-between px-1'>
-                <h5>{`Contest date: ${addLeadingZero(e.date[2])}-${addLeadingZero(e.date[1] + 1)}-${e.date[0]} at ${addLeadingZero(e.date[3])}:${addLeadingZero(e.date[4])}:${addLeadingZero(e.date[5])}`}</h5>
-                <h5>Total marks: {e.totalQuestion}</h5>
+                <h5>{`${addLeadingZero(e.date[2])}-${addLeadingZero(e.date[1] + 1)}-${e.date[0]} at ${addLeadingZero(e.date[3])}:${addLeadingZero(e.date[4])}:${addLeadingZero(e.date[5])}`}</h5>
+                <h5>Marks: {e.totalQuestion}</h5>
               </div>
-              <h5 className='px-1 mb-2'>{`Subject: ${e.subject}, chapter: ${e.chapter}`}</h5>
+              <h5 className='px-1 mb-2'>{`${e.subject}, ${e.chapter}`}</h5>
 
               <Result contestUser={e} />
             </div>)
