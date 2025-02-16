@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom'
 import registerUser from '../databaseCall/registerUser.js'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
+import sendEmailVerificationCode from '../databaseCall/sendVerificationEmail.js'
 
 function VerifyEmail() {
 
@@ -64,6 +65,22 @@ function VerifyEmail() {
         }
     }
 
+    const resendOTP = (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        sendEmailVerificationCode(userData.email)
+            .then((code) => {
+                console.log("userData.code before updation: ", userData.code);
+                userData.code = code
+                console.log("userData.code after updation: ", userData.code);
+                toast.success("OTP successfully sent to your email")
+            })
+            .catch((error) => {
+                toast.error("Something went wrong, please try again")
+                console.log("Error is: ", error);
+            })
+    }
+
     return (
         <div className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-12">
             <div className="relative bg-white px-6 pt-10 pb-9 shadow-xl mx-auto w-full max-w-lg rounded-2xl">
@@ -100,14 +117,18 @@ function VerifyEmail() {
 
                                 <div className="flex flex-col space-y-5">
                                     <div>
-                                        <button className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-2 bg-blue-700 border-none text-white text-sm shadow-sm">
+                                        <button onClick={(e) => {
+                                            e.preventDefault()
+                                            e.stopPropagation()
+                                        }
+                                        } className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-2 bg-blue-700 border-none text-white text-sm shadow-sm">
                                             Verify Account
                                         </button>
                                     </div>
 
                                     <div className="flex justify-center space-x-1 text-sm font-medium text-gray-500">
                                         <p>Didn't receive code?</p>
-                                        <a className="text-blue-600" href="http://" target="_blank">Resend</a>
+                                        <button onClick={resendOTP} className="flex justify-center items-start text-blue-600" >Resend</button>
                                     </div>
                                 </div>
                             </div>

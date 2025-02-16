@@ -31,9 +31,9 @@ function Step0({username, setUsername, handleSubmit}) {
                                 </div>
                             </div>
 
-                            <div className="flex flex-col space-y-5">
+                            <div className="flex flex-col space-y-4">
                                 <div>
-                                    <button onClick={handleSubmit} className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-blue-700 border-none text-white text-sm shadow-sm">
+                                    <button onClick={handleSubmit} className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-3 bg-blue-700 border-none text-white text-sm shadow-sm">
                                         Next
                                     </button>
                                 </div>

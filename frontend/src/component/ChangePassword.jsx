@@ -65,7 +65,7 @@ function ChangePassword() {
             }
             {
                 step == 1 &&
-                <Step1 username={username} setStep={setStep} setInputCode={setInputCode} inputCode={inputCode} />
+                <Step1 username={username} setStep={setStep} setInputCode={setInputCode} inputCode={inputCode} handleSubmit={handleSubmit}/>
             }
             {
                 step == 2 &&
