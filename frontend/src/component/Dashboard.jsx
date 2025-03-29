@@ -91,16 +91,32 @@ function Dashboard() {
       <div className='flex flex-column gap-y-14 my-8 mx-4'>
         {
           contest != null && contest.map((e) =>
-            <div key={e._id}>
+            <div key={e._id} className="bg-white rounded-lg shadow-md p-4 mb-4 border border-gray-100 hover:shadow-lg transition-shadow duration-200">
+              <div className="flex justify-between items-center mb-2">
+                <div className="flex items-center text-sm text-gray-600">
+                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <span className="font-medium">
+                    {`${addLeadingZero(e.date[2])}-${addLeadingZero(e.date[1] + 1)}-${e.date[0]} • ${addLeadingZero(e.date[3])}:${addLeadingZero(e.date[4])}`}
+                  </span>
+                </div>
 
-              <div className='flex justify-between px-1'>
-                <h5>{`${addLeadingZero(e.date[2])}-${addLeadingZero(e.date[1] + 1)}-${e.date[0]} at ${addLeadingZero(e.date[3])}:${addLeadingZero(e.date[4])}:${addLeadingZero(e.date[5])}`}</h5>
-                <h5>Marks: {e.totalQuestion}</h5>
+                <div className="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-sm font-semibold">
+                  Marks: {e.totalQuestion}
+                </div>
               </div>
-              <h5 className='px-1 mb-2'>{`${e.subject}, ${e.chapter}`}</h5>
 
-              <Result contestUser={e} />
-            </div>)
+              <div className="mb-3">
+                <h3 className="text-lg font-semibold text-gray-800">{e.subject}</h3>
+                <p className="text-gray-500 text-sm">{e.chapter}</p>
+              </div>
+
+              <div className="border-t border-gray-100 pt-3">
+                <Result contestUser={e} />
+              </div>
+            </div>
+          )
         }
       </div>
     </div>
