@@ -11,8 +11,8 @@ const insertQuestion = async (data) => {
 
   try {
     let response = await fetch(
-      // `http://localhost:8000/api/question/insertquestion`,
-      `https://playquizesbackend.vercel.app/api/question/insertquestion`,
+      `http://localhost:8000/api/question/insertquestion`,
+      // `https://playquizesbackend.vercel.app/api/question/insertquestion`,
       {
         method: "POST",
         headers: {
@@ -44,5 +44,6 @@ const insertAllQuestions = async (data) => {
   }
 };
 
-let data = []
+const data = []
+
 insertAllQuestions(data);

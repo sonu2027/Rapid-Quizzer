@@ -128,6 +128,22 @@ export default function AddContest() {
                                                 Pseudo Code
                                             </label>
                                         </div>
+                                        <div className="flex items-center gap-x-3">
+                                            <input
+                                                checked={subject === "Coding"}
+                                                onChange={() => {
+                                                    setSubject("Coding")
+                                                    const temp = ["DSA"]
+                                                    setChapter([...temp])
+                                                }}
+                                                id="coding"
+                                                name="subject"
+                                                type="radio"
+                                            />
+                                            <label htmlFor="coding" className="block text-sm/6 font-medium text-gray-900">
+                                                Coding
+                                            </label>
+                                        </div>
                                     </div>
                                 </fieldset>
                             </div>

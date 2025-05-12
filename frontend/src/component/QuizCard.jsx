@@ -78,7 +78,7 @@ const QuizCard = ({ setStartQuiz, contest }) => {
                 setSelectedAnswerIndex(null)
                 setTimer(1)
                 setStartQuiz(false)
-            }, 8000)
+            }, 10000)
         }
     }, [timer])
 
